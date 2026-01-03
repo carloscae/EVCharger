@@ -2,7 +2,7 @@
 
 **Start Date:** 2026-01-03  
 **Target Duration:** ~5 days  
-**Goal:** Establish project structure and core data layer
+**Goal:** Establish project structure and shared data layer
 
 ---
 
@@ -11,8 +11,7 @@
 | Role | Tasks |
 |------|-------|
 | **Platform Specialist** | S1-01 (Xcode Project) |
-| **State Engineer** | S1-02 (Data Models), S1-03 (API Service) |
-| **UI Developer** | S1-04 (CarPlay Scaffold) |
+| **State Engineer** | S1-02 (Data Models), S1-03 (API Service), S1-04 (Location Service) |
 | **Product Lead** | S1-05 (Entitlement Request) |
 
 ---
@@ -30,6 +29,7 @@
 - [ ] iOS 16+ deployment target
 - [ ] CarPlay capability enabled
 - [ ] SwiftData framework added
+- [ ] MapKit framework added
 - [ ] Directory structure per ARCHITECTURE.md
 
 **Files:**
@@ -79,27 +79,27 @@
 
 ---
 
-### S1-04: Scaffold CarPlay Interface
-**Role:** UI Developer  
+### S1-04: Implement Location Service
+**Role:** State Engineer  
 **Status:** `[ ]` Not Started  
 **Dependencies:** S1-01  
 **Estimated:** 2 hours
 
 **Deliverables:**
-- [ ] `CarPlaySceneDelegate` with lifecycle
-- [ ] Info.plist CarPlay scene configuration
-- [ ] Empty `CPListTemplate` for nearby chargers
-- [ ] CarPlay session connection/disconnect handling
+- [ ] `LocationService` using CoreLocation
+- [ ] Request location permissions
+- [ ] Get current location
+- [ ] Location update publisher for map centering
+- [ ] Handle permission denied gracefully
 
 **Files:**
-- `EVCharger/CarPlay/CarPlaySceneDelegate.swift`
-- `EVCharger/App/Info.plist` (updates)
+- `EVCharger/Services/LocationService.swift`
 
 ---
 
 ### S1-05: Request CarPlay Entitlement
 **Role:** Product Lead  
-**Status:** `[ ]` Not Started  
+**Status:** `[/]` In Progress (claimed by Antigravity @ 2026-01-03)  
 **Dependencies:** None  
 **Estimated:** 1 hour
 
@@ -119,7 +119,7 @@
 - [ ] Xcode project builds without errors
 - [ ] Data models compile and are testable
 - [ ] API service fetches real charger data
-- [ ] CarPlay scaffold connects in simulator
+- [ ] Location service provides user coordinates
 - [ ] CarPlay entitlement request submitted
 
 ---

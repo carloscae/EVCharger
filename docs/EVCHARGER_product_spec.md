@@ -31,7 +31,7 @@ Unlike ABRP ($50/year subscription) or network-specific apps (ChargePoint, Elect
 
 ### Core Value Proposition
 - 🔌 **200,000+ chargers worldwide** via Open Charge Map
-- 🚗 **CarPlay-first design** with Apple template compliance
+- 🚗 **Dual-platform design** — full experience on both iPhone and CarPlay
 - ⚡ **Connector filtering** (CCS, CHAdeMO, Tesla, J1772)
 - 📍 **One-tap navigation** handoff to Apple Maps
 - 💰 **One-time purchase** — no subscriptions
@@ -65,7 +65,10 @@ Unlike ABRP ($50/year subscription) or network-specific apps (ChargePoint, Elect
 | Charger Details | P0 | Address, connector types, operator |
 | Offline Cache | P0 | 24-hour cache of locations |
 | CarPlay Interface | P0 | CPListTemplate, CPPointOfInterestTemplate |
-| iPhone Companion | P1 | Settings, preferences, favorites |
+| iPhone Map View | P0 | Full map with charger pins |
+| iPhone List View | P0 | Searchable/filterable charger list |
+| iPhone Detail View | P0 | Charger info with navigate button |
+| Settings | P1 | Connector preferences, cache management |
 
 ### Premium Features ($2.99 IAP)
 
@@ -94,6 +97,28 @@ Unlike ABRP ($50/year subscription) or network-specific apps (ChargePoint, Elect
 - **UI Framework:** SwiftUI (iPhone), CarPlay Framework (CPTemplates)
 - **Data Persistence:** SwiftData / UserDefaults
 - **Networking:** URLSession with Combine
+- **Maps:** MapKit (iPhone)
+
+### Dual-Platform Architecture
+
+```
+┌─────────────────────────────────────────┐
+│           Shared Layer (~80%)           │
+│  • ChargersViewModel                    │
+│  • OpenChargeMapService                 │
+│  • LocationService / CacheService       │
+│  • Models (ChargingStation, etc.)       │
+└─────────────────────────────────────────┘
+           │                    │
+           ▼                    ▼
+┌─────────────────┐    ┌─────────────────┐
+│   iPhone UI     │    │   CarPlay UI    │
+│   (SwiftUI)     │    │   (CPTemplates) │
+│  • MapView      │    │  • ListTemplate │
+│  • ListView     │    │  • POITemplate  │
+│  • DetailView   │    │                 │
+└─────────────────┘    └─────────────────┘
+```
 
 ### External APIs
 - **Open Charge Map** (Primary): Free, 200K+ locations, full caching support
@@ -144,6 +169,34 @@ enum StatusType: String, Codable {
 
 ## Screen Flow
 
+### iPhone
+```
+┌─────────────────┐
+│   Map View      │ ← Full map with charger pins
+│   [📍] [📍] [📍] │
+│   [List Toggle] │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│   List View     │ ← Searchable, filterable
+│  [Charger 1]    │
+│  [Charger 2]    │
+│  [Filter: CCS]  │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Detail View    │
+│  Name, Address  │
+│  Connectors     │
+│  [Navigate]     │
+└─────────────────┘
+         │
+         ▼
+    Apple Maps
+```
+
 ### CarPlay
 ```
 ┌─────────────────┐
@@ -165,7 +218,7 @@ enum StatusType: String, Codable {
     Apple Maps
 ```
 
-### iPhone Companion
+### Settings (iPhone)
 ```
 ┌─────────────────┐
 │  Settings       │

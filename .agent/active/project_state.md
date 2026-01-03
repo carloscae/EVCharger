@@ -1,13 +1,13 @@
 # Project State
 
-**Last Updated:** 2026-01-04T00:45  
+**Last Updated:** 2026-01-04T00:50  
 **Updated By:** Antigravity (Product Lead)
 
 ---
 
 ## Current Sprint
 
-**Sprint 3: CarPlay**  
+**Sprint 4: Polish & Premium**  
 **Progress:** 0/5 tasks complete  
 **Status:** Ready to start
 
@@ -15,8 +15,11 @@
 
 ## Previous Sprints
 
+**Sprint 3: CarPlay** ✅  
+Completed 5/5 tasks. Full CarPlay experience with shared ViewModel.
+
 **Sprint 2: iPhone App** ✅  
-Completed 5/5 tasks. ViewModel, Map, List, Detail, Navigation all done.
+Completed 5/5 tasks. Map, List, Detail, Navigation all done.
 
 **Sprint 1: Foundation** ✅  
 Completed 4/5 tasks. S1-05 (entitlement) deferred.
@@ -25,7 +28,7 @@ Completed 4/5 tasks. S1-05 (entitlement) deferred.
 
 ## Blockers
 
-- Apple Developer enrollment pending (blocks S1-05, needed for device testing in Sprint 3)
+- Apple Developer enrollment pending (S1-05, needed for device testing)
 
 ---
 
@@ -33,14 +36,8 @@ Completed 4/5 tasks. S1-05 (entitlement) deferred.
 
 | Priority | Task | Role | Dependencies |
 |----------|------|------|--------------|
-| 1 | S3-01: CarPlay Scene Delegate | UI Developer | None |
-| 2 | S3-02: Nearby Chargers List | UI Developer | S3-01 |
-| 3 | S3-03: Charger Detail Template | UI Developer | S3-02 |
-| 4 | S3-04: Connector Filter | UI Developer | S3-02 |
-| 5 | S3-05: Integration Testing | Platform Specialist | All above |
-
----
-
-## Next Priority
-
-{{ ... }}
+| 1 | S4-01: SwiftData Caching | State Engineer | None |
+| 2 | S4-02: Offline Mode | State Engineer | S4-01 |
+| 3 | S4-03: Settings Screen | UI Developer | None |
+| 4 | S4-04: StoreKit Purchase | Platform Specialist | None |
+| 5 | S4-05: Polish & QA | Platform Specialist | All above |

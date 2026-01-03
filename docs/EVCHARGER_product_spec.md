@@ -70,13 +70,15 @@ Unlike ABRP ($50/year subscription) or network-specific apps (ChargePoint, Elect
 | iPhone Detail View | P0 | Charger info with navigate button |
 | Settings | P1 | Connector preferences, cache management |
 
-### Premium Features ($2.99 IAP)
+### Post-Launch Features
 
 | Feature | Description |
 |---------|-------------|
 | Real-Time Availability | Live status from Open Charge Map |
 | Favorite Chargers | Save preferred locations |
 | Multiple Vehicle Profiles | Store connector prefs per vehicle |
+| iOS Widget | Quick glance at nearest chargers |
+| Apple Watch | Companion for real-time status |
 
 ### Non-Goals (Kill Criteria)
 
@@ -225,7 +227,7 @@ enum StatusType: String, Codable {
 ├─────────────────┤
 │ • My Connector  │
 │ • Cache Status  │
-│ • Premium       │
+│ • About         │
 └─────────────────┘
 ```
 
@@ -233,12 +235,18 @@ enum StatusType: String, Codable {
 
 ## Monetization
 
-| Tier | Price | Features |
-|------|-------|----------|
-| Free | $0 | Nearby chargers, basic filtering, navigation |
-| Premium | $2.99 | Real-time status, favorites, multi-vehicle |
+| Model | Detail |
+|-------|--------|
+| **Price** | $3.99 one-time purchase |
+| **Trial** | 7-day free trial (full features) |
+| **No Subscription** | Key differentiator vs ABRP ($50/yr) |
+| **No Feature Gating** | Full experience for all users |
 
-**Rationale:** One-time IAP matches user expectation ("4 days/year usage"). Avoids subscription fatigue that plagues competitors.
+**Rationale:** 
+- $3.99 = "coffee money" impulse buy threshold
+- Free trial converts better than freemium
+- No paywall logic = simpler codebase
+- Matches user expectation ("4 days/year usage")
 
 ---
 
@@ -247,8 +255,8 @@ enum StatusType: String, Codable {
 | Metric | Target | Rationale |
 |--------|--------|-----------|
 | App Store Rating | 4.5+ stars | Quality indicator |
+| Trial → Paid Conversion | 30%+ | Value validation |
 | CarPlay Session Length | <30 sec | Speed of task completion |
-| Premium Conversion | 15%+ | Feature value validation |
 | Cache Hit Rate | 90%+ | Offline reliability |
 
 ---
@@ -257,13 +265,13 @@ enum StatusType: String, Codable {
 
 | App | CarPlay | Price | Charger Data | Route Planning |
 |-----|---------|-------|--------------|----------------|
-| **EVCharger (Ours)** | ✅ Native | $2.99 once | Open Charge Map | ❌ |
+| **EVCharger (Ours)** | ✅ Native | $3.99 once | Open Charge Map | ❌ |
 | A Better Route Planner | ✅ | $50/year | Multiple sources | ✅ Full |
 | PlugShare | ⚠️ Limited | Free | Crowdsourced | ❌ |
 | ChargePoint | ⚠️ Network only | Free | ChargePoint only | ❌ |
 | Apple Maps | ✅ Built-in | Free | Limited | ⚠️ Select cars |
 
-**Our Advantage:** Simple, cheap, network-agnostic, CarPlay-native.
+**Our Advantage:** Simple, cheap, network-agnostic, CarPlay-native, no subscription.
 
 ---
 

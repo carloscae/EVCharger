@@ -9,7 +9,7 @@ struct EVChargerApp: App {
     /// SwiftData model container for offline caching
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            // Models will be added here as they're implemented
+            ChargingStation.self
         ])
         let modelConfiguration = ModelConfiguration(
             schema: schema,

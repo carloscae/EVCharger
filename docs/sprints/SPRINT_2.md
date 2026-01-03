@@ -1,7 +1,8 @@
-# Sprint 2: iPhone App
+# Sprint 2: iPhone App ✅
 
+**Progress:** 5/5 tasks complete  
 **Start Date:** 2026-01-04  
-**Target Duration:** ~5 days  
+**Completed:** 2026-01-04  
 **Goal:** Complete iPhone experience with map and list views
 
 ---
@@ -19,18 +20,18 @@
 
 ### S2-01: Implement ChargersViewModel
 **Role:** State Engineer  
-**Status:** `[ ]` Not Started  
+**Status:** `[x]` Complete (Antigravity @ 2026-01-04T00:27)  
 **Dependencies:** None (S1 complete)  
 **Estimated:** 2 hours
 
 **Deliverables:**
-- [ ] `ChargersViewModel` @Observable class
-- [ ] Integrate `OpenChargeMapService` and `LocationService`
-- [ ] `stations: [ChargingStation]` with filtering
-- [ ] `selectedConnector: ConnectorType?` filter state
-- [ ] `isLoading`, `error` states
-- [ ] `fetchNearbyChargers()` async method
-- [ ] Offline-first: check cache, then fetch
+- [x] `ChargersViewModel` @Observable class
+- [x] Integrate `OpenChargeMapService` and `LocationService`
+- [x] `stations: [ChargingStation]` with filtering
+- [x] `selectedConnector: ConnectorType?` filter state
+- [x] `isLoading`, `error` states
+- [x] `fetchNearbyChargers()` async method
+- [x] Offline-first: check cache, then fetch
 
 **Files:**
 - `EVCharger/ViewModels/ChargersViewModel.swift`
@@ -39,37 +40,37 @@
 
 ### S2-02: Implement Map View
 **Role:** UI Developer  
-**Status:** `[ ]` Not Started  
+**Status:** `[x]` Complete (Map-Maven @ 2026-01-04T00:40)  
 **Dependencies:** S2-01  
 **Estimated:** 3 hours
 
 **Deliverables:**
-- [ ] `ChargerMapView` with MapKit
-- [ ] Center on user location
-- [ ] Charger pins with custom annotation
-- [ ] Tap pin → select charger
-- [ ] Region change → update visible chargers
-- [ ] List toggle button overlay
+- [x] `ChargerMapView` with MapKit
+- [x] Center on user location
+- [x] Charger pins with custom annotation
+- [x] Tap pin → select charger
+- [x] Region change → update visible chargers
+- [x] List toggle button overlay
 
 **Files:**
 - `EVCharger/Views/ChargerMapView.swift`
-- `EVCharger/Views/Components/ChargerAnnotation.swift`
+- `EVCharger/Views/Components/ChargerAnnotation.swift` (inline in ChargerMapView)
 
 ---
 
 ### S2-03: Implement List View
 **Role:** UI Developer  
-**Status:** `[ ]` Not Started  
+**Status:** `[x]` Complete (Map-Maven @ 2026-01-04T00:40)  
 **Dependencies:** S2-01  
 **Estimated:** 2 hours
 
 **Deliverables:**
-- [ ] `ChargerListView` with SwiftUI List
-- [ ] `ChargerRowView` reusable component
-- [ ] Distance display (km/mi)
-- [ ] Connector type badges
-- [ ] Search bar (filter by name)
-- [ ] Connector filter picker
+- [x] `ChargerListView` with SwiftUI List
+- [x] `ChargerRowView` reusable component
+- [x] Distance display (km/mi)
+- [x] Connector type badges
+- [x] Search bar (filter by name)
+- [x] Connector filter picker
 
 **Files:**
 - `EVCharger/Views/ChargerListView.swift`
@@ -80,17 +81,17 @@
 
 ### S2-04: Implement Detail View
 **Role:** UI Developer  
-**Status:** `[ ]` Not Started  
+**Status:** `[x]` Complete (Map-Maven @ 2026-01-04T00:40)  
 **Dependencies:** S2-01  
 **Estimated:** 2 hours
 
 **Deliverables:**
-- [ ] `ChargerDetailView` sheet/navigation
-- [ ] Station name, operator, address
-- [ ] Connector types list with icons
-- [ ] Number of charging points
-- [ ] Usage cost (if available)
-- [ ] Navigate button (prominent)
+- [x] `ChargerDetailView` sheet/navigation
+- [x] Station name, operator, address
+- [x] Connector types list with icons
+- [x] Number of charging points
+- [x] Usage cost (if available)
+- [x] Navigate button (prominent)
 
 **Files:**
 - `EVCharger/Views/ChargerDetailView.swift`
@@ -100,15 +101,15 @@
 
 ### S2-05: Implement Navigation Handoff
 **Role:** UI Developer  
-**Status:** `[ ]` Not Started  
+**Status:** `[x]` Complete (Map-Maven @ 2026-01-04T00:40)  
 **Dependencies:** S2-04  
 **Estimated:** 1 hour
 
 **Deliverables:**
-- [ ] `NavigationService` or helper function
-- [ ] Open Apple Maps with driving directions
-- [ ] Works from detail view and map callout
-- [ ] Handle MapKit URL scheme
+- [x] `NavigationService` or helper function
+- [x] Open Apple Maps with driving directions
+- [x] Works from detail view and map callout
+- [x] Handle MapKit URL scheme
 
 **Files:**
 - `EVCharger/Services/NavigationService.swift`
@@ -117,21 +118,29 @@
 
 ## Success Criteria
 
-- [ ] App launches to map view
-- [ ] Map shows charger pins near user
-- [ ] List view shows chargers sorted by distance
-- [ ] Connector filter works on both views
-- [ ] Tap charger → see detail sheet
-- [ ] Tap Navigate → opens Apple Maps with directions
+- [x] App launches to map view
+- [x] Map shows charger pins near user
+- [x] List view shows chargers sorted by distance
+- [x] Connector filter works on both views
+- [x] Tap charger → see detail sheet
+- [x] Tap Navigate → opens Apple Maps with directions
 
 ---
 
 ## Blockers & Notes
 
-*Add blockers during sprint.*
+*Sprint completed with no blockers.*
 
 ---
 
 ## Completed Tasks
 
-*Move completed tasks here with agent details.*
+### S2-01: Implement ChargersViewModel ✅
+**Completed by:** Antigravity (State Engineer)  
+**Time:** 2026-01-04T00:26 → 2026-01-04T00:27  
+**Deliverables:** `ChargersViewModel` with @Observable state, service integration, connector filtering, offline-first SwiftData caching, distance helpers, and Combine subscription. Build verified.
+
+### S2-02 to S2-05: iPhone UI Complete ✅
+**Completed by:** Map-Maven (UI Developer)  
+**Time:** 2026-01-04T00:28 → 2026-01-04T00:40  
+**Deliverables:** Full iPhone UI with `ChargerMapView` (MapKit + annotations), `ChargerListView` (search + filter), `ChargerDetailView` (sheet + info), `NavigationService` (Apple Maps handoff), plus `ChargerRowView`, `ConnectorBadgeView`, and `ConnectorFilterView` components. Build verified.

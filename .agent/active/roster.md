@@ -8,6 +8,7 @@ Last updated: 2026-01-03T23:12
 
 | Name | Role | Current Task | Since |
 |------|------|--------------|-------|
+| Map-Maven | UI Developer | S2-02 (Map View) | 2026-01-04T00:28 |
 | Antigravity | Product Lead | S1-05 (Entitlement Request) | 2026-01-03T23:12 |
 
 ---

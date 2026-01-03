@@ -9,14 +9,14 @@
 
 | Layer | Technology | Version |
 |-------|------------|---------|
-| Platform | iOS | 16.0+ |
+| Platform | iOS | 17.0+ |
 | Language | Swift | 5.9+ |
-| iPhone UI | SwiftUI | iOS 16+ |
+| iPhone UI | SwiftUI | iOS 17+ |
 | CarPlay UI | CarPlay Framework | CPTemplates |
 | Data Layer | SwiftData | iOS 17+ |
 | Networking | URLSession + Combine | Native |
 | Location | CoreLocation | Native |
-| Maps Integration | MapKit | URL Schemes |
+| Maps Integration | MapKit | Native |
 
 ---
 
@@ -168,11 +168,15 @@ GET /poi?latitude={lat}&longitude={lng}&distance={km}&maxresults={n}&compact=tru
 
 ### Caching Strategy
 
-| Data | Cache Duration | Storage |
-|------|----------------|---------|
-| Station locations | 24 hours | SwiftData |
-| User preferences | Indefinite | UserDefaults |
-| Real-time status | No cache | Memory only |
+**Approach: Offline-First**
+
+Faster launch, better for spotty cellular in parking garages.
+
+| Data | Cache Duration | Storage | Behavior |
+|------|----------------|---------|----------|
+| Station locations | 24 hours | SwiftData | Use cache first, refresh in background |
+| User preferences | Indefinite | UserDefaults | Always local |
+| Real-time status | No cache | Memory only | Fetch on-demand |
 
 ---
 
@@ -197,19 +201,20 @@ func navigateToStation(_ station: ChargingStation) {
 
 ---
 
-## Premium Features (IAP)
+## Purchase Flow (StoreKit 2)
 
-### StoreKit 2 Integration
+**Model:** $3.99 one-time with 7-day free trial
 
 ```swift
-enum PremiumFeature: String, CaseIterable {
-    case realTimeStatus = "com.evcharger.premium.status"
-    case favorites = "com.evcharger.premium.favorites"
-    case multiVehicle = "com.evcharger.premium.vehicles"
-}
+// Product ID
+let productID = "com.evcharger.fullapp"
+
+// Trial configuration in App Store Connect
+// - Introductory offer: 7-day free trial
+// - Then: $3.99 one-time purchase
 ```
 
-### Premium Bundle: `com.evcharger.premium` ($2.99)
+No feature gating — all users get full experience.
 
 ---
 
@@ -242,17 +247,35 @@ xcodebuild archive -scheme EVCharger \
 
 ## Key Design Decisions
 
-### 1. SwiftData over Core Data
+### 1. iOS 17+ Target
+**Rationale:** SwiftData is much cleaner than Core Data. EV owners tend to have newer phones.
+
+### 2. SwiftData over Core Data
 **Rationale:** Simpler API, Swift-native, sufficient for our caching needs.
 
-### 2. No Combine for CarPlay
-**Rationale:** CarPlay templates are not reactive; direct updates work better.
+### 3. Offline-First Caching
+**Rationale:** Faster launch, works in parking garages with poor signal.
 
-### 3. Open Charge Map as Primary
+### 4. Open Charge Map as Primary
 **Rationale:** Free, global coverage, full caching rights. NREL only covers US.
 
-### 4. One-time IAP over Subscription
-**Rationale:** Users complained about subscription fatigue for occasional-use apps.
+### 5. Paid Upfront with Trial
+**Rationale:** Users complained about subscription fatigue. $3.99 with 7-day trial converts better than freemium.
+
+---
+
+## UI Decisions
+
+### iPhone Default View
+**Decision:** Map default with prominent list toggle
+**Rationale:** More engaging first impression, visual discovery.
+
+### Design System
+| Aspect | Value |
+|--------|-------|
+| Dark Mode | Both light and dark supported |
+| Brand Color | Green #34C759 (SF Symbol green) |
+| Style | Minimal, Apple-like |
 
 ---
 

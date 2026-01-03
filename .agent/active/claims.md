@@ -1,6 +1,6 @@
 # Task Claims Ledger
 
-Last updated: 2026-01-03T23:52
+Last updated: 2026-01-04T00:06
 
 ---
 
@@ -8,9 +8,7 @@ Last updated: 2026-01-03T23:52
 
 | Task ID | Agent | Role | Claimed At | Status |
 |---------|-------|------|------------|--------|
-
-*No active claims — S1-05 deferred pending Apple Developer enrollment.*
-| S1-02 | Antigravity | State Engineer | 2026-01-03T23:57 | In Progress |
+| S1-05 | Antigravity | Product Lead | 2026-01-03T23:12 | In Progress |
 
 ---
 
@@ -18,6 +16,9 @@ Last updated: 2026-01-03T23:52
 
 | Task ID | Agent | Role | Completed At | Time Spent |
 |---------|-------|------|--------------|------------|
+| S1-04 | Antigravity | State Engineer | 2026-01-04T00:06 | 4 mins |
+| S1-03 | Antigravity | State Engineer | 2026-01-04T00:05 | 4 mins |
+| S1-02 | Antigravity | State Engineer | 2026-01-04T00:01 | 4 mins |
 | S1-01 | Antigravity | Platform Specialist | 2026-01-03T23:52 | 7 mins |
 
 ---

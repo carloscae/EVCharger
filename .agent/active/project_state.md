@@ -1,21 +1,28 @@
 # Project State
 
-**Last Updated:** 2026-01-03T23:12  
+**Last Updated:** 2026-01-04T00:22  
 **Updated By:** Antigravity (Product Lead)
 
 ---
 
 ## Current Sprint
 
-**Sprint 1: Foundation**  
+**Sprint 2: iPhone App**  
 **Progress:** 0/5 tasks complete  
-**Status:** Just started — multi-agent system bootstrapped
+**Status:** Ready to start
+
+---
+
+## Previous Sprint
+
+**Sprint 1: Foundation** ✅  
+Completed 4/5 tasks in ~25 minutes. S1-05 (entitlement) deferred pending Apple Developer enrollment.
 
 ---
 
 ## Blockers
 
-*None — project just initialized*
+- Apple Developer enrollment pending (blocks S1-05, needed before Sprint 3)
 
 ---
 
@@ -23,17 +30,8 @@
 
 | Priority | Task | Role | Dependencies |
 |----------|------|------|--------------|
-| 1 | S1-01: Create Xcode Project | Platform Specialist | None |
-| 2 | S1-05: Request CarPlay Entitlement | Product Lead | None |
-| 3 | S1-02: Implement Data Models | State Engineer | S1-01 |
-| 4 | S1-04: Scaffold CarPlay Interface | UI Developer | S1-01 |
-| 5 | S1-03: Implement Open Charge Map Service | State Engineer | S1-02 |
-
----
-
-## Recent Updates
-
-**2026-01-03:** Project bootstrapped using multi_agent_bootstrap.md workflow.
-- Created all core documentation
-- Created Sprint 1 with 5 tasks
-- Set up agent workflows and state tracking
+| 1 | S2-01: ChargersViewModel | State Engineer | None |
+| 2 | S2-02: Map View | UI Developer | S2-01 |
+| 3 | S2-03: List View | UI Developer | S2-01 |
+| 4 | S2-04: Detail View | UI Developer | S2-01 |
+| 5 | S2-05: Navigation Handoff | UI Developer | S2-04 |

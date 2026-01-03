@@ -32,9 +32,9 @@ class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelegate {
         // Placeholder items - will be populated by ChargersViewModel
         let placeholderItem = CPListItem(
             text: "Loading nearby chargers...",
-            detailText: "Searching for EV charging stations"
+            detailText: "Searching for EV charging stations",
+            image: UIImage(systemName: "bolt.car.fill")
         )
-        placeholderItem.image = UIImage(systemName: "bolt.car.fill")
         
         let section = CPListSection(items: [placeholderItem])
         

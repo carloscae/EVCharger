@@ -25,6 +25,12 @@
 		'OpenChargeMapServiceTestsBuildFile' = {isa = PBXBuildFile; fileRef = OpenChargeMapServiceTestsSwift; };
 		'StatusTypeBuildFile' = {isa = PBXBuildFile; fileRef = StatusTypeSwift; };
 		'UserPreferencesBuildFile' = {isa = PBXBuildFile; fileRef = UserPreferencesSwift; };
+		S4BFNM01 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRNM01 /* NetworkMonitor.swift */; };
+		S4BFCS01 /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRCS01 /* CacheService.swift */; };
+		S4BFSV01 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRSV01 /* SettingsView.swift */; };
+		S4BFCSV1 /* CacheStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRCSV1 /* CacheStatusView.swift */; };
+		S4BFSM01 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRSM01 /* StoreManager.swift */; };
+		S4BFTB01 /* TrialBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRTB01 /* TrialBannerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +65,12 @@
 		'OpenChargeMapServiceTestsSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChargeMapServiceTests.swift; sourceTree = "<group>"; };
 		'StatusTypeSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusType.swift; sourceTree = "<group>"; };
 		'UserPreferencesSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		S4FRNM01 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkMonitor.swift; path = EVCharger/Services/NetworkMonitor.swift; sourceTree = SOURCE_ROOT; };
+		S4FRCS01 /* CacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CacheService.swift; path = EVCharger/Services/CacheService.swift; sourceTree = SOURCE_ROOT; };
+		S4FRSV01 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = EVCharger/Views/SettingsView.swift; sourceTree = SOURCE_ROOT; };
+		S4FRCSV1 /* CacheStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CacheStatusView.swift; path = EVCharger/Views/Components/CacheStatusView.swift; sourceTree = SOURCE_ROOT; };
+		S4FRSM01 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StoreManager.swift; path = EVCharger/Services/StoreManager.swift; sourceTree = SOURCE_ROOT; };
+		S4FRTB01 /* TrialBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrialBannerView.swift; path = EVCharger/Views/Components/TrialBannerView.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +144,12 @@
 				A4674A049F46CEEFCF1B2F2B /* ChargerRowView.swift */,
 				CA2F41E6BA17BA8948FCAA22 /* ConnectorBadgeView.swift */,
 				1DA54065821313B888C85D35 /* NavigationService.swift */,
+				S4FRNM01 /* NetworkMonitor.swift */,
+				S4FRCS01 /* CacheService.swift */,
+				S4FRSV01 /* SettingsView.swift */,
+				S4FRCSV1 /* CacheStatusView.swift */,
+				S4FRSM01 /* StoreManager.swift */,
+				S4FRTB01 /* TrialBannerView.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -293,6 +311,12 @@
 				76684BF7872AC5D858B071B3 /* ChargerRowView.swift in Sources */,
 				219E4BF188486ABBF1C7826D /* ConnectorBadgeView.swift in Sources */,
 				39FC45909F781A1099A7FD17 /* NavigationService.swift in Sources */,
+				S4BFNM01 /* NetworkMonitor.swift in Sources */,
+				S4BFCS01 /* CacheService.swift in Sources */,
+				S4BFSV01 /* SettingsView.swift in Sources */,
+				S4BFCSV1 /* CacheStatusView.swift in Sources */,
+				S4BFSM01 /* StoreManager.swift in Sources */,
+				S4BFTB01 /* TrialBannerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

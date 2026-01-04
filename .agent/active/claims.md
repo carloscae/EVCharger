@@ -1,12 +1,13 @@
 # Task Claims Ledger
 
-Last updated: 2026-01-04T00:45
+Last updated: 2026-01-04T00:56
 
 ---
 
 ## Active Claims
 
 | Task ID | Agent | Role | Claimed At | Status |
+|---------|-------|------|------------|--------|
 |---------|-------|------|------------|--------|
 
 ---
@@ -15,6 +16,12 @@ Last updated: 2026-01-04T00:45
 
 | Task ID | Agent | Role | Completed At | Time Spent |
 |---------|-------|------|--------------|------------|
+| S4-05 | Antigravity | Platform Specialist | 2026-01-04T01:10 | 3 mins |
+| S4-03 | Map-Maven | UI Developer | 2026-01-04T01:06 | 12 mins |
+| S4-04 | Antigravity | Platform Specialist | 2026-01-04T00:56 | 2 mins |
+| S4-02 | Antigravity | State Engineer | 2026-01-04T00:56 | 2 mins |
+| S4-01 | Antigravity | State Engineer | 2026-01-04T00:56 | (bundled) |
+| S4-01 | Antigravity | State Engineer | 2026-01-04T00:56 | (bundled) |
 | S3-05 | Antigravity | Platform Specialist | 2026-01-04T00:48 | 1 min |
 | S3-04 | Map-Maven | UI Developer | 2026-01-04T00:45 | 1 min |
 | S3-03 | Map-Maven | UI Developer | 2026-01-04T00:45 | (bundled) |

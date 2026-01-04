@@ -32,6 +32,9 @@ final class ChargersViewModel {
     /// Error message for display
     private(set) var error: String?
     
+    /// Whether we're in offline mode
+    private(set) var isOffline: Bool = false
+    
     /// Selected station for detail view
     var selectedStation: ChargingStation?
     
@@ -51,9 +54,11 @@ final class ChargersViewModel {
     /// Services
     private let apiService: OpenChargeMapService
     private let locationService: LocationService
+    private let networkMonitor: NetworkMonitor
     
     /// SwiftData context for caching
     private var modelContext: ModelContext?
+    private var cacheService: CacheService?
     
     /// Cancellables for Combine subscriptions
     private var cancellables = Set<AnyCancellable>()
@@ -62,17 +67,21 @@ final class ChargersViewModel {
     
     init(
         apiService: OpenChargeMapService = OpenChargeMapService(),
-        locationService: LocationService = LocationService()
+        locationService: LocationService = LocationService(),
+        networkMonitor: NetworkMonitor = NetworkMonitor()
     ) {
         self.apiService = apiService
         self.locationService = locationService
+        self.networkMonitor = networkMonitor
         
         setupLocationSubscription()
+        setupNetworkSubscription()
     }
     
     /// Configure SwiftData context for caching
     func configure(modelContext: ModelContext) {
         self.modelContext = modelContext
+        self.cacheService = CacheService(modelContext: modelContext)
     }
     
     // MARK: - Public Methods
@@ -97,7 +106,19 @@ final class ChargersViewModel {
             // 2. Load from cache first (offline-first)
             await loadCachedStations(near: location)
             
-            // 3. Fetch fresh data from API
+            // 3. Check if offline - use cache only
+            if networkMonitor.isOffline {
+                isOffline = true
+                if allStations.isEmpty {
+                    error = "You're offline. No cached chargers available."
+                }
+                isLoading = false
+                return
+            }
+            
+            isOffline = false
+            
+            // 4. Fetch fresh data from API
             let freshStations = try await apiService.fetchNearbyStations(
                 location: location.coordinate,
                 radiusKm: searchRadiusKm,
@@ -105,7 +126,7 @@ final class ChargersViewModel {
                 connectorTypes: selectedConnector.map { [$0] }
             )
             
-            // 4. Update state and cache
+            // 5. Update state and cache
             allStations = freshStations
             applyFilter()
             
@@ -117,9 +138,19 @@ final class ChargersViewModel {
         } catch let locationError as LocationError {
             error = locationError.errorDescription
         } catch let apiError as OpenChargeMapError {
-            error = apiError.errorDescription
+            // Network error - fall back to cache
+            if allStations.isEmpty {
+                error = apiError.errorDescription
+            } else {
+                // We have cached data, show it with offline indicator
+                isOffline = true
+            }
         } catch {
-            self.error = "Failed to fetch chargers: \(error.localizedDescription)"
+            if allStations.isEmpty {
+                self.error = "Failed to fetch chargers: \(error.localizedDescription)"
+            } else {
+                isOffline = true
+            }
         }
         
         isLoading = false
@@ -172,6 +203,27 @@ final class ChargersViewModel {
                 Task { [weak self] in
                     await self?.fetchNearbyChargers()
                 }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func setupNetworkSubscription() {
+        // Auto-refresh when coming back online
+        networkMonitor.connectionPublisher
+            .removeDuplicates()
+            .filter { $0 } // Only when connected
+            .dropFirst() // Skip initial value
+            .sink { [weak self] _ in
+                Task { [weak self] in
+                    await self?.fetchNearbyChargers()
+                }
+            }
+            .store(in: &cancellables)
+        
+        // Update offline state
+        networkMonitor.connectionPublisher
+            .sink { [weak self] isConnected in
+                self?.isOffline = !isConnected
             }
             .store(in: &cancellables)
     }

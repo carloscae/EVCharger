@@ -15,6 +15,7 @@ struct ChargerMapView: View {
     @Bindable var viewModel: ChargersViewModel
     @State private var cameraPosition: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var showingList = false
+    @State private var showingSettings = false
     @State private var selectedStation: ChargingStation?
     
     var body: some View {
@@ -79,6 +80,16 @@ struct ChargerMapView: View {
                                 .padding(8)
                                 .background(.ultraThinMaterial, in: Circle())
                         }
+                        
+                        // Settings button
+                        Button {
+                            showingSettings = true
+                        } label: {
+                            Image(systemName: "gearshape.fill")
+                                .font(.title3)
+                                .padding(8)
+                                .background(.ultraThinMaterial, in: Circle())
+                        }
                     }
                     
                     // Connector filter chips
@@ -122,6 +133,9 @@ struct ChargerMapView: View {
             NavigationStack {
                 ChargerListView(viewModel: viewModel)
             }
+        }
+        .sheet(isPresented: $showingSettings) {
+            SettingsView()
         }
         .task {
             await viewModel.fetchNearbyChargers()

@@ -64,7 +64,7 @@ struct ChargerDetailView: View {
                     
                     // Details section
                     VStack(alignment: .leading, spacing: 12) {
-                        Label("Details", systemImage: "info.circle")
+                        Text("Details")
                             .font(.headline)
                         
                         DetailRow(label: "Charging Points", value: "\(station.numberOfPoints)")

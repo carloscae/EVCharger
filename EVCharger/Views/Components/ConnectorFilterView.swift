@@ -28,7 +28,7 @@ struct ConnectorFilterView: View {
                 ForEach(ConnectorType.allCases) { connector in
                     FilterChip(
                         label: connector.displayName,
-                        icon: connector.iconName,
+                        icon: connector.sfSymbol,
                         isSelected: selectedConnector == connector
                     ) {
                         selectedConnector = connector

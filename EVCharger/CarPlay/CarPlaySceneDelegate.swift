@@ -233,7 +233,7 @@ class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelegate {
             let item = CPListItem(
                 text: connector.displayName,
                 detailText: nil,
-                image: UIImage(systemName: connector.iconName)
+                image: UIImage(systemName: connector.sfSymbol)
             )
             item.accessoryType = selectedConnectorFilter == connector ? .cloud : .none
             item.handler = { [weak self] _, completion in

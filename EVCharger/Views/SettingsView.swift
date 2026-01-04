@@ -36,8 +36,17 @@ struct SettingsView: View {
                     )) {
                         Text("All Types").tag("")
                         ForEach(ConnectorType.allCases) { connector in
-                            Label(connector.displayName, systemImage: connector.iconName)
-                                .tag(connector.rawValue)
+                            Label {
+                                VStack(alignment: .leading) {
+                                    Text(connector.displayName)
+                                    Text(connector.hint)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                            } icon: {
+                                Image(systemName: connector.sfSymbol)
+                            }
+                            .tag(connector.rawValue)
                         }
                     }
                 } header: {

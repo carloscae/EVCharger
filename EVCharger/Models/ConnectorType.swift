@@ -32,7 +32,7 @@ enum ConnectorType: String, Codable, CaseIterable, Identifiable {
         }
     }
     
-    /// Custom icon asset name for visual representation
+    /// Custom icon asset name for Image() (connector-specific icons in asset catalog)
     var iconName: String {
         switch self {
         case .ccs: return "connector.ccs"
@@ -42,4 +42,16 @@ enum ConnectorType: String, Codable, CaseIterable, Identifiable {
         case .type2: return "connector.type2"
         }
     }
+    
+    /// SF Symbol name for Label/systemImage contexts (fallback for Picker, etc.)
+    var sfSymbol: String {
+        switch self {
+        case .ccs: return "ev.plug.dc.ccs1"
+        case .chademo: return "ev.plug.dc.chademo"
+        case .tesla: return "bolt.fill"
+        case .j1772: return "ev.plug.ac.type.1"
+        case .type2: return "ev.plug.ac.type.2"
+        }
+    }
 }
+

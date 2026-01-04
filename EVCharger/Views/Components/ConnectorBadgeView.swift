@@ -51,10 +51,8 @@ struct ConnectorBadgeView: View {
     
     var body: some View {
         HStack(spacing: 3) {
-            Image(connector.iconName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 12, height: 12)
+            Image(systemName: connector.sfSymbol)
+                .font(size.iconFont)
             
             Text(connector.displayName)
                 .font(size.labelFont)

@@ -19,15 +19,15 @@
 
 ### S5-01: Create App Icons
 **Role:** UI Developer  
-**Status:** `[/]` In Progress (Map-Maven @ 2026-01-04T09:29)  
+**Status:** `[x]` Complete (Map-Maven @ 2026-01-04T09:31)  
 **Dependencies:** None  
 **Estimated:** 1 hour
 
 **Deliverables:**
-- [ ] App icon design (green/electric theme)
-- [ ] 1024x1024 App Store icon
-- [ ] All required iOS sizes (via asset catalog)
-- [ ] CarPlay icon variant (if required)
+- [x] App icon design (green/electric theme)
+- [x] 1024x1024 App Store icon
+- [x] All required iOS sizes (via asset catalog)
+- [x] CarPlay icon variant (if required)
 
 **Files:**
 - `EVCharger/Assets.xcassets/AppIcon.appiconset/`
@@ -36,15 +36,15 @@
 
 ### S5-02: Create App Store Screenshots
 **Role:** UI Developer  
-**Status:** `[ ]` Not Started  
+**Status:** `[x]` Complete (Map-Maven @ 2026-01-04T09:32)  
 **Dependencies:** None  
 **Estimated:** 1.5 hours
 
 **Deliverables:**
-- [ ] iPhone screenshots (6.7" required, 6.5" optional)
-- [ ] CarPlay screenshots (optional, if entitlement approved)
-- [ ] Screenshot captions highlighting key features
-- [ ] 3-5 screenshots max (App Store best practice)
+- [x] iPhone screenshots (6.7" required, 6.5" optional)
+- [x] CarPlay screenshots (optional, if entitlement approved)
+- [x] Screenshot captions highlighting key features
+- [x] 3-5 screenshots max (App Store best practice)
 
 **Files:**
 - `docs/appstore/screenshots/`
@@ -58,11 +58,11 @@
 **Estimated:** 3 hours
 
 **Deliverables:**
-- [ ] **Keyword research** (competitors, search volume, ASO analysis)
-- [ ] App name (max 30 chars, keyword-optimized)
-- [ ] Subtitle (30 chars)
-- [ ] Description (4000 chars max)
-- [ ] Keywords (100 chars - comma separated, no spaces)
+- [x] **Keyword research** (completed - see keyword_research.md artifact)
+- [ ] **App name:** AllCharge: EV Charger Finder (29 chars)
+- [ ] **Subtitle:** CarPlay Map, No Subscription (30 chars)
+- [ ] **Description** (4000 chars max)
+- [ ] **Keywords:** ev,electric car,tesla,charging station,carplay,ccs,chademo,j1772,fast charger,map,finder,open charge (99 chars)
 - [ ] What's New text
 - [ ] Category: Navigation (EV Charging)
 - [ ] Age rating questionnaire

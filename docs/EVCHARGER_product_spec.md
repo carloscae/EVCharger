@@ -1,16 +1,18 @@
-# EVCharger: Simple EV Charger Finder for CarPlay
+# AllCharge: EV Charger Finder for CarPlay
 
+**App Name:** AllCharge: EV Charger Finder  
+**Subtitle:** CarPlay Map, No Subscription  
 **Version:** 1.0  
-**Last Updated:** 2026-01-03  
+**Last Updated:** 2026-01-04  
 **Product Lead:** Antigravity (AI Agent)
 
 ---
 
 ## Executive Summary
 
-EVCharger is a **CarPlay-focused EV charging station finder** that solves a single driving moment: *"I need to find a charger nearby that matches my connector type, now."*
+**AllCharge** is a **CarPlay-focused EV charging station finder** that solves a single driving moment: *"I need to find a charger nearby that matches my connector type, now."*
 
-Unlike ABRP ($50/year subscription) or network-specific apps (ChargePoint, Electrify America), EVCharger is a **one-time purchase** that provides instant access to 200,000+ global charging locations via the free Open Charge Map API.
+Unlike ABRP ($50/year subscription) or network-specific apps (ChargePoint, Electrify America), AllCharge is a **one-time purchase** that provides instant access to 200,000+ global charging locations via the free Open Charge Map API.
 
 ---
 

@@ -19,7 +19,7 @@
 
 ### S5-01: Create App Icons
 **Role:** UI Developer  
-**Status:** `[ ]` Not Started  
+**Status:** `[/]` In Progress (Map-Maven @ 2026-01-04T09:29)  
 **Dependencies:** None  
 **Estimated:** 1 hour
 
@@ -38,13 +38,13 @@
 **Role:** UI Developer  
 **Status:** `[ ]` Not Started  
 **Dependencies:** None  
-**Estimated:** 2 hours
+**Estimated:** 1.5 hours
 
 **Deliverables:**
-- [ ] iPhone screenshots (6.7", 6.5", 5.5")
-- [ ] CarPlay screenshots (if possible)
-- [ ] Screenshot frames and captions
-- [ ] Key features highlighted
+- [ ] iPhone screenshots (6.7" required, 6.5" optional)
+- [ ] CarPlay screenshots (optional, if entitlement approved)
+- [ ] Screenshot captions highlighting key features
+- [ ] 3-5 screenshots max (App Store best practice)
 
 **Files:**
 - `docs/appstore/screenshots/`
@@ -55,13 +55,14 @@
 **Role:** Product Lead  
 **Status:** `[ ]` Not Started  
 **Dependencies:** S5-01, S5-02  
-**Estimated:** 1.5 hours
+**Estimated:** 3 hours
 
 **Deliverables:**
-- [ ] App name: "EVCharger - Find EV Chargers"
+- [ ] **Keyword research** (competitors, search volume, ASO analysis)
+- [ ] App name (max 30 chars, keyword-optimized)
 - [ ] Subtitle (30 chars)
-- [ ] Description (4000 chars)
-- [ ] Keywords (100 chars)
+- [ ] Description (4000 chars max)
+- [ ] Keywords (100 chars - comma separated, no spaces)
 - [ ] What's New text
 - [ ] Category: Navigation (EV Charging)
 - [ ] Age rating questionnaire

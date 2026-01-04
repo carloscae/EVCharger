@@ -12,7 +12,10 @@ import MapKit
 struct ChargerDetailView: View {
     
     let station: ChargingStation
+    let userLocation: CLLocation?
     @Environment(\.dismiss) private var dismiss
+    @State private var estimatedTravelTime: TimeInterval?
+    @State private var isCalculatingETA = true
     
     var body: some View {
         ScrollView {
@@ -26,26 +29,37 @@ struct ChargerDetailView: View {
                 .allowsHitTesting(false)
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    // Header
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
+                    // Header with title and navigation button
+                    HStack(alignment: .top, spacing: 16) {
+                        // Left: Station info
+                        VStack(alignment: .leading, spacing: 6) {
                             Text(station.name)
                                 .font(.title2.bold())
                             
-                            Spacer()
+                            if let operatorName = station.operatorName {
+                                Label(operatorName, systemImage: "building.2")
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                            }
                             
-                            StatusBadge(status: station.statusType)
-                        }
-                        
-                        if let operatorName = station.operatorName {
-                            Label(operatorName, systemImage: "building.2")
+                            Label(station.address, systemImage: "mappin.and.ellipse")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
+                            
+                            // Status badge under address
+                            StatusBadge(status: station.statusType)
+                                .padding(.top, 4)
                         }
                         
-                        Label(station.address, systemImage: "mappin.and.ellipse")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                        Spacer()
+                        
+                        // Right: Navigation button (Apple Maps style)
+                        NavigationButton(
+                            travelTime: estimatedTravelTime,
+                            isLoading: isCalculatingETA
+                        ) {
+                            NavigationService.navigateToStation(station)
+                        }
                     }
                     
                     Divider()
@@ -78,21 +92,6 @@ struct ChargerDetailView: View {
                             value: station.lastUpdated.formatted(date: .abbreviated, time: .shortened)
                         )
                     }
-                    
-                    Spacer(minLength: 20)
-                    
-                    // Navigate button
-                    Button {
-                        NavigationService.navigateToStation(station)
-                    } label: {
-                        Label("Navigate", systemImage: "arrow.triangle.turn.up.right.diamond.fill")
-                            .font(.headline)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green.gradient)
-                            .foregroundStyle(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                    }
                 }
                 .padding()
             }
@@ -109,6 +108,9 @@ struct ChargerDetailView: View {
                 }
             }
         }
+        .task {
+            await calculateETA()
+        }
     }
     
     private var stationRegion: MKCoordinateRegion {
@@ -116,6 +118,81 @@ struct ChargerDetailView: View {
             center: station.coordinate,
             span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         )
+    }
+    
+    private func calculateETA() async {
+        guard let userLocation else {
+            isCalculatingETA = false
+            return
+        }
+        
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: userLocation.coordinate))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: station.coordinate))
+        request.transportType = .automobile
+        
+        let directions = MKDirections(request: request)
+        
+        do {
+            let response = try await directions.calculate()
+            if let route = response.routes.first {
+                estimatedTravelTime = route.expectedTravelTime
+            }
+        } catch {
+            print("Failed to calculate ETA: \(error)")
+        }
+        
+        isCalculatingETA = false
+    }
+}
+
+// MARK: - Navigation Button (Apple Maps style)
+
+struct NavigationButton: View {
+    let travelTime: TimeInterval?
+    let isLoading: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 6) {
+                // Blue circle with car icon
+                ZStack {
+                    Circle()
+                        .fill(Color.blue.gradient)
+                        .frame(width: 56, height: 56)
+                    
+                    Image(systemName: "car.fill")
+                        .font(.title2)
+                        .foregroundStyle(.white)
+                }
+                
+                // ETA label
+                if isLoading {
+                    ProgressView()
+                        .scaleEffect(0.7)
+                } else if let time = travelTime {
+                    Text(formatTravelTime(time))
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(.blue)
+                }
+            }
+        }
+        .buttonStyle(.plain)
+    }
+    
+    private func formatTravelTime(_ seconds: TimeInterval) -> String {
+        let minutes = Int(seconds / 60)
+        if minutes < 60 {
+            return "\(minutes) min"
+        } else {
+            let hours = minutes / 60
+            let remainingMinutes = minutes % 60
+            if remainingMinutes == 0 {
+                return "\(hours) hr"
+            }
+            return "\(hours) hr \(remainingMinutes) min"
+        }
     }
 }
 
@@ -173,6 +250,10 @@ struct DetailRow: View {
 
 #Preview {
     NavigationStack {
-        ChargerDetailView(station: .sample)
+        ChargerDetailView(
+            station: .sample,
+            userLocation: CLLocation(latitude: 37.78, longitude: -122.41)
+        )
     }
 }
+

@@ -36,7 +36,10 @@ struct ChargerListView: View {
                 } else {
                     ForEach(filteredStations, id: \.id) { station in
                         NavigationLink {
-                            ChargerDetailView(station: station)
+                            ChargerDetailView(
+                                station: station,
+                                userLocation: viewModel.currentUserLocation
+                            )
                         } label: {
                             ChargerRowView(
                                 station: station,

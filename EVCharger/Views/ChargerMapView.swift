@@ -138,7 +138,10 @@ struct ChargerSheetContent: View {
             SettingsView()
         }
         .sheet(item: $selectedStation) { station in
-            ChargerDetailView(station: station)
+            ChargerDetailView(
+                station: station,
+                userLocation: viewModel.currentUserLocation
+            )
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
         }

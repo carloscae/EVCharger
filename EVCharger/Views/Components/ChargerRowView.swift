@@ -42,7 +42,7 @@ struct ChargerRowView: View {
                 // Connector badges
                 HStack(spacing: 4) {
                     ForEach(station.connectorTypes.prefix(3), id: \.self) { connector in
-                        ConnectorBadgeView(connector: connector, size: .small)
+                        ConnectorBadgeView(connector: connector)
                     }
                     
                     if station.connectorTypes.count > 3 {

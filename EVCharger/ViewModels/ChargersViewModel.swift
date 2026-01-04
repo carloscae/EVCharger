@@ -122,7 +122,7 @@ final class ChargersViewModel {
             let freshStations = try await apiService.fetchNearbyStations(
                 location: location.coordinate,
                 radiusKm: searchRadiusKm,
-                maxResults: 100,
+                maxResults: 200,
                 connectorTypes: selectedConnector.map { [$0] }
             )
             
@@ -165,7 +165,7 @@ final class ChargersViewModel {
             let freshStations = try await apiService.fetchNearbyStations(
                 location: coordinate,
                 radiusKm: radiusKm ?? searchRadiusKm,
-                maxResults: 100,
+                maxResults: 200,
                 connectorTypes: selectedConnector.map { [$0] }
             )
             

@@ -91,7 +91,10 @@ struct ChargerSheetContent: View {
                                 Text("Unable to load")
                                     .foregroundStyle(.orange)
                             } else {
-                                Text("\(viewModel.stations.count) Chargers Nearby")
+                                // Show 200+ when at API limit
+                                let count = viewModel.stations.count
+                                let label = count >= 200 ? "200+ Chargers Nearby" : "\(count) Chargers Nearby"
+                                Text(label)
                             }
                         }
                         .font(.title2.bold())

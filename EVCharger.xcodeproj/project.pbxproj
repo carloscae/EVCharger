@@ -12,31 +12,32 @@
 		6FAA40B5B5BDB1EC5C71F2CF /* ChargerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C04484D999021E1752BB4EB /* ChargerDetailView.swift */; };
 		76684BF7872AC5D858B071B3 /* ChargerRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4674A049F46CEEFCF1B2F2B /* ChargerRowView.swift */; };
 		940A433885FB75D2EAB81EBC /* ConnectorFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0854436DBE41F6F7723F9AF7 /* ConnectorFilterView.swift */; };
+		APICONFIGBF /* APIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = APICONFIGFR /* APIConfig.swift */; };
 		BC0A40B484A2CF8D370C3DD7 /* ChargersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE74C44849488A51DF0B777 /* ChargersViewModel.swift */; };
-		'CarPlaySceneDelegate' = {isa = PBXBuildFile; fileRef = CarPlaySceneDelegateSwift; };
-		'ChargingStationBuildFile' = {isa = PBXBuildFile; fileRef = ChargingStationSwift; };
-		'ConnectorTypeBuildFile' = {isa = PBXBuildFile; fileRef = ConnectorTypeSwift; };
-		'ContentView' = {isa = PBXBuildFile; fileRef = ContentViewSwift; };
+		CarPlaySceneDelegate /* CarPlaySceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CarPlaySceneDelegateSwift /* CarPlaySceneDelegate.swift */; };
+		ChargingStationBuildFile /* ChargingStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ChargingStationSwift /* ChargingStation.swift */; };
+		ConnectorTypeBuildFile /* ConnectorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ConnectorTypeSwift /* ConnectorType.swift */; };
+		ContentView /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ContentViewSwift /* ContentView.swift */; };
 		DBBA4AB2A53DFCD5A7BDB1D8 /* ChargerMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97754B38A467366AFFFDAE3D /* ChargerMapView.swift */; };
 		EF704101BE12C6CF30284813 /* ChargerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEE47BE86E4136A94B715B1 /* ChargerListView.swift */; };
-		'EVChargerApp' = {isa = PBXBuildFile; fileRef = EVChargerAppSwift; };
-		'LocationServiceBuildFile' = {isa = PBXBuildFile; fileRef = LocationServiceSwift; };
-		'OpenChargeMapServiceBuildFile' = {isa = PBXBuildFile; fileRef = OpenChargeMapServiceSwift; };
-		'OpenChargeMapServiceTestsBuildFile' = {isa = PBXBuildFile; fileRef = OpenChargeMapServiceTestsSwift; };
-		'StatusTypeBuildFile' = {isa = PBXBuildFile; fileRef = StatusTypeSwift; };
-		'UserPreferencesBuildFile' = {isa = PBXBuildFile; fileRef = UserPreferencesSwift; };
-		S4BFNM01 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRNM01 /* NetworkMonitor.swift */; };
+		EVChargerApp /* EVChargerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EVChargerAppSwift /* EVChargerApp.swift */; };
+		LocationServiceBuildFile /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = LocationServiceSwift /* LocationService.swift */; };
+		OpenChargeMapServiceBuildFile /* OpenChargeMapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OpenChargeMapServiceSwift /* OpenChargeMapService.swift */; };
+		OpenChargeMapServiceTestsBuildFile /* OpenChargeMapServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OpenChargeMapServiceTestsSwift /* OpenChargeMapServiceTests.swift */; };
 		S4BFCS01 /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRCS01 /* CacheService.swift */; };
-		S4BFSV01 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRSV01 /* SettingsView.swift */; };
 		S4BFCSV1 /* CacheStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRCSV1 /* CacheStatusView.swift */; };
+		S4BFNM01 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRNM01 /* NetworkMonitor.swift */; };
 		S4BFSM01 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRSM01 /* StoreManager.swift */; };
+		S4BFSV01 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRSV01 /* SettingsView.swift */; };
 		S4BFTB01 /* TrialBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S4FRTB01 /* TrialBannerView.swift */; };
+		StatusTypeBuildFile /* StatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = StatusTypeSwift /* StatusType.swift */; };
+		UserPreferencesBuildFile /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = UserPreferencesSwift /* UserPreferences.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		'TestsContainerItemProxy' = {
+		TestsContainerItemProxy /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = Project;
+			containerPortal = Project /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EVChargerTarget;
 			remoteInfo = EVCharger;
@@ -51,37 +52,38 @@
 		97754B38A467366AFFFDAE3D /* ChargerMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChargerMapView.swift; path = EVCharger/Views/ChargerMapView.swift; sourceTree = SOURCE_ROOT; };
 		9DEE47BE86E4136A94B715B1 /* ChargerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChargerListView.swift; path = EVCharger/Views/ChargerListView.swift; sourceTree = SOURCE_ROOT; };
 		A4674A049F46CEEFCF1B2F2B /* ChargerRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChargerRowView.swift; path = EVCharger/Views/Components/ChargerRowView.swift; sourceTree = SOURCE_ROOT; };
+		APICONFIGFR /* APIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = APIConfig.swift; path = EVCharger/Config/APIConfig.swift; sourceTree = SOURCE_ROOT; };
 		CA2F41E6BA17BA8948FCAA22 /* ConnectorBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConnectorBadgeView.swift; path = EVCharger/Views/Components/ConnectorBadgeView.swift; sourceTree = SOURCE_ROOT; };
-		'CarPlaySceneDelegateSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlaySceneDelegate.swift; sourceTree = "<group>"; };
-		'ChargingStationSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargingStation.swift; sourceTree = "<group>"; };
-		'ConnectorTypeSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectorType.swift; sourceTree = "<group>"; };
-		'ContentViewSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		'EVChargerAppSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVChargerApp.swift; sourceTree = "<group>"; };
-		'EVChargerProduct' = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EVCharger.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		'EVChargerTestsProduct' = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EVChargerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		'InfoPlist' = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		'LocationServiceSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		'OpenChargeMapServiceSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChargeMapService.swift; sourceTree = "<group>"; };
-		'OpenChargeMapServiceTestsSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChargeMapServiceTests.swift; sourceTree = "<group>"; };
-		'StatusTypeSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusType.swift; sourceTree = "<group>"; };
-		'UserPreferencesSwift' = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
-		S4FRNM01 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkMonitor.swift; path = EVCharger/Services/NetworkMonitor.swift; sourceTree = SOURCE_ROOT; };
+		CarPlaySceneDelegateSwift /* CarPlaySceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlaySceneDelegate.swift; sourceTree = "<group>"; };
+		ChargingStationSwift /* ChargingStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargingStation.swift; sourceTree = "<group>"; };
+		ConnectorTypeSwift /* ConnectorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectorType.swift; sourceTree = "<group>"; };
+		ContentViewSwift /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		EVChargerAppSwift /* EVChargerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVChargerApp.swift; sourceTree = "<group>"; };
+		EVChargerProduct /* EVCharger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EVCharger.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EVChargerTestsProduct /* EVChargerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EVChargerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		InfoPlist /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		LocationServiceSwift /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		OpenChargeMapServiceSwift /* OpenChargeMapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChargeMapService.swift; sourceTree = "<group>"; };
+		OpenChargeMapServiceTestsSwift /* OpenChargeMapServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChargeMapServiceTests.swift; sourceTree = "<group>"; };
 		S4FRCS01 /* CacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CacheService.swift; path = EVCharger/Services/CacheService.swift; sourceTree = SOURCE_ROOT; };
-		S4FRSV01 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = EVCharger/Views/SettingsView.swift; sourceTree = SOURCE_ROOT; };
 		S4FRCSV1 /* CacheStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CacheStatusView.swift; path = EVCharger/Views/Components/CacheStatusView.swift; sourceTree = SOURCE_ROOT; };
+		S4FRNM01 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkMonitor.swift; path = EVCharger/Services/NetworkMonitor.swift; sourceTree = SOURCE_ROOT; };
 		S4FRSM01 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StoreManager.swift; path = EVCharger/Services/StoreManager.swift; sourceTree = SOURCE_ROOT; };
+		S4FRSV01 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = EVCharger/Views/SettingsView.swift; sourceTree = SOURCE_ROOT; };
 		S4FRTB01 /* TrialBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrialBannerView.swift; path = EVCharger/Views/Components/TrialBannerView.swift; sourceTree = SOURCE_ROOT; };
+		StatusTypeSwift /* StatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusType.swift; sourceTree = "<group>"; };
+		UserPreferencesSwift /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		'FrameworksBuildPhase' = {
+		FrameworksBuildPhase /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		'TestsFrameworksBuildPhase' = {
+		TestsFrameworksBuildPhase /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -91,51 +93,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		'AppGroup' = {
+		AppGroup /* App */ = {
 			isa = PBXGroup;
 			children = (
-				EVChargerAppSwift,
-				ContentViewSwift,
+				EVChargerAppSwift /* EVChargerApp.swift */,
+				ContentViewSwift /* ContentView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
 		};
-		'CarPlayGroup' = {
+		CarPlayGroup /* CarPlay */ = {
 			isa = PBXGroup;
 			children = (
-				CarPlaySceneDelegateSwift,
+				CarPlaySceneDelegateSwift /* CarPlaySceneDelegate.swift */,
 			);
 			path = CarPlay;
 			sourceTree = "<group>";
 		};
-		'EVChargerGroup' = {
+		EVChargerGroup /* EVCharger */ = {
 			isa = PBXGroup;
 			children = (
-				AppGroup,
-				CarPlayGroup,
-				ModelsGroup,
-				ServicesGroup,
-				ViewModelsGroup,
-				ViewsGroup,
-				InfoPlist,
+				AppGroup /* App */,
+				CarPlayGroup /* CarPlay */,
+				ModelsGroup /* Models */,
+				ServicesGroup /* Services */,
+				ViewModelsGroup /* ViewModels */,
+				ViewsGroup /* Views */,
+				InfoPlist /* Info.plist */,
 			);
 			path = EVCharger;
 			sourceTree = "<group>";
 		};
-		'EVChargerTestsGroup' = {
+		EVChargerTestsGroup /* EVChargerTests */ = {
 			isa = PBXGroup;
 			children = (
-				OpenChargeMapServiceTestsSwift,
+				OpenChargeMapServiceTestsSwift /* OpenChargeMapServiceTests.swift */,
 			);
 			path = EVChargerTests;
 			sourceTree = "<group>";
 		};
-		'MainGroup' = {
+		MainGroup = {
 			isa = PBXGroup;
 			children = (
-				EVChargerGroup,
-				EVChargerTestsGroup,
-				ProductsGroup,
+				EVChargerGroup /* EVCharger */,
+				EVChargerTestsGroup /* EVChargerTests */,
+				ProductsGroup /* Products */,
 				8EE74C44849488A51DF0B777 /* ChargersViewModel.swift */,
 				97754B38A467366AFFFDAE3D /* ChargerMapView.swift */,
 				9DEE47BE86E4136A94B715B1 /* ChargerListView.swift */,
@@ -150,46 +152,47 @@
 				S4FRCSV1 /* CacheStatusView.swift */,
 				S4FRSM01 /* StoreManager.swift */,
 				S4FRTB01 /* TrialBannerView.swift */,
+				APICONFIGFR /* APIConfig.swift */,
 			);
 			sourceTree = "<group>";
 		};
-		'ModelsGroup' = {
+		ModelsGroup /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				ChargingStationSwift,
-				ConnectorTypeSwift,
-				StatusTypeSwift,
-				UserPreferencesSwift,
+				ChargingStationSwift /* ChargingStation.swift */,
+				ConnectorTypeSwift /* ConnectorType.swift */,
+				StatusTypeSwift /* StatusType.swift */,
+				UserPreferencesSwift /* UserPreferences.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		'ProductsGroup' = {
+		ProductsGroup /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EVChargerProduct,
-				EVChargerTestsProduct,
+				EVChargerProduct /* EVCharger.app */,
+				EVChargerTestsProduct /* EVChargerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		'ServicesGroup' = {
+		ServicesGroup /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				OpenChargeMapServiceSwift,
-				LocationServiceSwift,
+				OpenChargeMapServiceSwift /* OpenChargeMapService.swift */,
+				LocationServiceSwift /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		'ViewModelsGroup' = {
+		ViewModelsGroup /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		'ViewsGroup' = {
+		ViewsGroup /* Views */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -199,13 +202,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		'EVChargerTarget' = {
+		EVChargerTarget /* EVCharger */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BuildConfigList;
+			buildConfigurationList = BuildConfigList /* Build configuration list for PBXNativeTarget "EVCharger" */;
 			buildPhases = (
-				SourcesBuildPhase,
-				FrameworksBuildPhase,
-				ResourcesBuildPhase,
+				SourcesBuildPhase /* Sources */,
+				FrameworksBuildPhase /* Frameworks */,
+				ResourcesBuildPhase /* Resources */,
 			);
 			buildRules = (
 			);
@@ -213,36 +216,36 @@
 			);
 			name = EVCharger;
 			productName = EVCharger;
-			productReference = EVChargerProduct;
+			productReference = EVChargerProduct /* EVCharger.app */;
 			productType = "com.apple.product-type.application";
 		};
-		'EVChargerTestsTarget' = {
+		EVChargerTestsTarget /* EVChargerTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = TestsBuildConfigList;
+			buildConfigurationList = TestsBuildConfigList /* Build configuration list for PBXNativeTarget "EVChargerTests" */;
 			buildPhases = (
-				TestsSourcesBuildPhase,
-				TestsFrameworksBuildPhase,
-				TestsResourcesBuildPhase,
+				TestsSourcesBuildPhase /* Sources */,
+				TestsFrameworksBuildPhase /* Frameworks */,
+				TestsResourcesBuildPhase /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				TestsTargetDependency,
+				TestsTargetDependency /* PBXTargetDependency */,
 			);
 			name = EVChargerTests;
 			productName = EVChargerTests;
-			productReference = EVChargerTestsProduct;
+			productReference = EVChargerTestsProduct /* EVChargerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		'Project' = {
+		Project /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					EVChargerTarget = {
 						CreatedOnToolsVersion = 15.4;
@@ -253,7 +256,7 @@
 					};
 				};
 			};
-			buildConfigurationList = ProjectBuildConfigList;
+			buildConfigurationList = ProjectBuildConfigList /* Build configuration list for PBXProject "EVCharger" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -262,25 +265,25 @@
 				Base,
 			);
 			mainGroup = MainGroup;
-			productRefGroup = ProductsGroup;
+			productRefGroup = ProductsGroup /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EVChargerTarget,
-				EVChargerTestsTarget,
+				EVChargerTarget /* EVCharger */,
+				EVChargerTestsTarget /* EVChargerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		'ResourcesBuildPhase' = {
+		ResourcesBuildPhase /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		'TestsResourcesBuildPhase' = {
+		TestsResourcesBuildPhase /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -290,19 +293,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		'SourcesBuildPhase' = {
+		SourcesBuildPhase /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EVChargerApp,
-				ContentView,
-				CarPlaySceneDelegate,
-				ChargingStationBuildFile,
-				ConnectorTypeBuildFile,
-				StatusTypeBuildFile,
-				UserPreferencesBuildFile,
-				OpenChargeMapServiceBuildFile,
-				LocationServiceBuildFile,
+				EVChargerApp /* EVChargerApp.swift in Sources */,
+				ContentView /* ContentView.swift in Sources */,
+				CarPlaySceneDelegate /* CarPlaySceneDelegate.swift in Sources */,
+				ChargingStationBuildFile /* ChargingStation.swift in Sources */,
+				ConnectorTypeBuildFile /* ConnectorType.swift in Sources */,
+				StatusTypeBuildFile /* StatusType.swift in Sources */,
+				UserPreferencesBuildFile /* UserPreferences.swift in Sources */,
+				OpenChargeMapServiceBuildFile /* OpenChargeMapService.swift in Sources */,
+				LocationServiceBuildFile /* LocationService.swift in Sources */,
 				BC0A40B484A2CF8D370C3DD7 /* ChargersViewModel.swift in Sources */,
 				DBBA4AB2A53DFCD5A7BDB1D8 /* ChargerMapView.swift in Sources */,
 				EF704101BE12C6CF30284813 /* ChargerListView.swift in Sources */,
@@ -317,29 +320,30 @@
 				S4BFCSV1 /* CacheStatusView.swift in Sources */,
 				S4BFSM01 /* StoreManager.swift in Sources */,
 				S4BFTB01 /* TrialBannerView.swift in Sources */,
+				APICONFIGBF /* APIConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		'TestsSourcesBuildPhase' = {
+		TestsSourcesBuildPhase /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				OpenChargeMapServiceTestsBuildFile,
+				OpenChargeMapServiceTestsBuildFile /* OpenChargeMapServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		'TestsTargetDependency' = {
+		TestsTargetDependency /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EVChargerTarget;
-			targetProxy = TestsContainerItemProxy;
+			target = EVChargerTarget /* EVCharger */;
+			targetProxy = TestsContainerItemProxy /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		'DebugConfig' = {
+		DebugConfig /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -397,12 +401,13 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		'ReleaseConfig' = {
+		ReleaseConfig /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -453,12 +458,13 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		'TargetDebugConfig' = {
+		TargetDebugConfig /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -493,7 +499,7 @@
 			};
 			name = Debug;
 		};
-		'TargetReleaseConfig' = {
+		TargetReleaseConfig /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -527,7 +533,7 @@
 			};
 			name = Release;
 		};
-		'TestsDebugConfig' = {
+		TestsDebugConfig /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -546,7 +552,7 @@
 			};
 			name = Debug;
 		};
-		'TestsReleaseConfig' = {
+		TestsReleaseConfig /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -568,34 +574,34 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		'BuildConfigList' = {
+		BuildConfigList /* Build configuration list for PBXNativeTarget "EVCharger" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				TargetDebugConfig,
-				TargetReleaseConfig,
+				TargetDebugConfig /* Debug */,
+				TargetReleaseConfig /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		'ProjectBuildConfigList' = {
+		ProjectBuildConfigList /* Build configuration list for PBXProject "EVCharger" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DebugConfig,
-				ReleaseConfig,
+				DebugConfig /* Debug */,
+				ReleaseConfig /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		'TestsBuildConfigList' = {
+		TestsBuildConfigList /* Build configuration list for PBXNativeTarget "EVChargerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				TestsDebugConfig,
-				TestsReleaseConfig,
+				TestsDebugConfig /* Debug */,
+				TestsReleaseConfig /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = Project;
+	rootObject = Project /* Project object */;
 }

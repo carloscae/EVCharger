@@ -45,7 +45,7 @@ final class StoreManager {
     static let trialDays = 7
     
     /// Transaction listener task
-    nonisolated(unsafe) private var updateListenerTask: Task<Void, Error>?
+    private var updateListenerTask: Task<Void, Error>? = nil
     
     // MARK: - Computed Properties
     
@@ -83,9 +83,7 @@ final class StoreManager {
         }
     }
     
-    deinit {
-        updateListenerTask?.cancel()
-    }
+
     
     // MARK: - Public Methods
     

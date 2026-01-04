@@ -55,13 +55,11 @@ struct ChargerDetailView: View {
                         Label("Connectors", systemImage: "ev.plug.dc.ccs1")
                             .font(.headline)
                         
-                        LazyVGrid(columns: [
-                            GridItem(.flexible()),
-                            GridItem(.flexible())
-                        ], spacing: 8) {
+                        HStack(spacing: 8) {
                             ForEach(station.connectorTypes, id: \.self) { connector in
                                 ConnectorBadgeView(connector: connector, size: .large)
                             }
+                            Spacer()
                         }
                     }
                     

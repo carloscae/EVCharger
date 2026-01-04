@@ -52,7 +52,8 @@ class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelegate {
     
     func templateApplicationScene(
         _ templateApplicationScene: CPTemplateApplicationScene,
-        didDisconnect interfaceController: CPInterfaceController
+        didDisconnectInterfaceController interfaceController: CPInterfaceController,
+        from window: CPWindow
     ) {
         self.interfaceController = nil
         self.nearbyChargersTemplate = nil

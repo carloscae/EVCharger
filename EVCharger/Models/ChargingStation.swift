@@ -97,24 +97,17 @@ extension ChargingStation {
     }
     
     /// Formatted distance string (e.g., "0.3 mi" or "1.2 km")
-    func formattedDistance(from userLocation: CLLocation, useMetric: Bool = false) -> String {
-        let meters = distance(from: userLocation)
+    /// Formatted distance string (e.g., "0.3 mi" or "1.2 km")
+    func formattedDistance(from userLocation: CLLocation) -> String {
+        let distanceInMeters = distance(from: userLocation)
+        let distance = Measurement(value: distanceInMeters, unit: UnitLength.meters)
         
-        if useMetric {
-            if meters < 1000 {
-                return String(format: "%.0f m", meters)
-            } else {
-                return String(format: "%.1f km", meters / 1000)
-            }
-        } else {
-            let miles = meters / 1609.34
-            if miles < 0.1 {
-                let feet = meters * 3.28084
-                return String(format: "%.0f ft", feet)
-            } else {
-                return String(format: "%.1f mi", miles)
-            }
-        }
+        let formatter = MeasurementFormatter()
+        formatter.unitStyle = .medium
+        formatter.unitOptions = .naturalScale
+        formatter.numberFormatter.maximumFractionDigits = 1
+        
+        return formatter.string(from: distance)
     }
     
     /// Comma-separated list of connector types for display

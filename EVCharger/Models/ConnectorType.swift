@@ -18,25 +18,28 @@ enum ConnectorType: String, Codable, CaseIterable, Identifiable {
     
     var id: String { rawValue }
     
-    /// Human-readable display name for the connector type
-    var displayName: String {
+    /// Short display name for the connector type (used in lists, map, CarPlay)
+    var displayName: String { rawValue }
+    
+    /// Hint text to help users understand which connector they need (used in Settings)
+    var hint: String {
         switch self {
-        case .ccs: return "CCS (Combined Charging System)"
-        case .chademo: return "CHAdeMO"
-        case .tesla: return "Tesla Supercharger"
-        case .j1772: return "J1772 (Level 2)"
-        case .type2: return "Type 2 (Mennekes)"
+        case .ccs: return "Most newer EVs"
+        case .chademo: return "Nissan Leaf, older EVs"
+        case .tesla: return "Tesla vehicles"
+        case .j1772: return "Level 2 / All EVs"
+        case .type2: return "European standard"
         }
     }
     
-    /// Short label for compact UI (CarPlay lists)
-    var shortName: String { rawValue }
-    
-    /// SF Symbol name for visual representation
+    /// Custom icon asset name for visual representation
     var iconName: String {
         switch self {
-        case .tesla: return "bolt.fill"
-        default: return "ev.plug.dc.ccs1"
+        case .ccs: return "connector.ccs"
+        case .chademo: return "connector.chademo"
+        case .tesla: return "connector.tesla"
+        case .j1772: return "connector.j1772"
+        case .type2: return "connector.type2"
         }
     }
 }

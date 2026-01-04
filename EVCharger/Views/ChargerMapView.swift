@@ -9,163 +9,154 @@ import SwiftUI
 import MapKit
 
 /// Main map view displaying nearby charging stations.
-/// Centers on user location with custom annotations for chargers.
+/// Apple Maps style with draggable bottom sheet and floating controls.
 struct ChargerMapView: View {
     
     @Bindable var viewModel: ChargersViewModel
     @State private var cameraPosition: MapCameraPosition = .userLocation(fallback: .automatic)
-    @State private var showingList = false
     @State private var showingSettings = false
     @State private var selectedStation: ChargingStation?
+    @State private var sheetDetent: PresentationDetent = .height(140)
     
     var body: some View {
-        ZStack {
-            // Map with charger annotations
-            Map(position: $cameraPosition, selection: $selectedStation) {
-                // User location
-                UserAnnotation()
-                
-                // Charger annotations
-                ForEach(viewModel.stations, id: \.id) { station in
-                    Annotation(
-                        station.name,
-                        coordinate: station.coordinate,
-                        anchor: .bottom
-                    ) {
-                        ChargerAnnotation(station: station)
-                    }
-                    .tag(station)
-                }
-            }
-            .mapStyle(.standard(elevation: .realistic))
-            .mapControls {
-                MapUserLocationButton()
-                MapCompass()
-                MapScaleView()
-            }
-            .ignoresSafeArea(edges: .top)
-            .onMapCameraChange(frequency: .onEnd) { context in
-                // Fetch chargers when map region changes
-                Task {
-                    await viewModel.fetchChargers(
-                        at: context.region.center,
-                        radiusKm: regionRadiusKm(context.region)
-                    )
-                }
-            }
+        Map(position: $cameraPosition, selection: $selectedStation) {
+            UserAnnotation()
             
-            // Overlay controls
-            VStack {
-                Spacer()
-                
-                // Bottom card with toggle and filter
-                VStack(spacing: 12) {
-                    // Header row
-                    HStack {
-                        Image(systemName: "bolt.car.fill")
-                            .font(.title2)
-                            .foregroundStyle(.green)
-                        
-                        Text("Nearby Chargers")
-                            .font(.headline)
-                        
-                        Spacer()
-                        
-                        // List toggle
-                        Button {
-                            showingList = true
-                        } label: {
-                            Image(systemName: "list.bullet")
-                                .font(.title3)
-                                .padding(8)
-                                .background(.ultraThinMaterial, in: Circle())
-                        }
-                        
-                        // Settings button
-                        Button {
-                            showingSettings = true
-                        } label: {
-                            Image(systemName: "gearshape.fill")
-                                .font(.title3)
-                                .padding(8)
-                                .background(.ultraThinMaterial, in: Circle())
-                        }
-                    }
-                    
-                    // Connector filter chips
-                    ConnectorFilterView(selectedConnector: $viewModel.selectedConnector)
-                    
-                    // Loading/Error state
-                    if viewModel.isLoading {
-                        HStack {
-                            ProgressView()
-                                .scaleEffect(0.8)
-                            Text("Finding chargers...")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    } else if let error = viewModel.error {
-                        HStack {
-                            Image(systemName: "exclamationmark.triangle.fill")
-                                .foregroundStyle(.orange)
-                            Text(error)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    } else {
-                        Text("\(viewModel.stations.count) chargers nearby")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
+            ForEach(viewModel.stations, id: \.id) { station in
+                Annotation(
+                    station.name,
+                    coordinate: station.coordinate,
+                    anchor: .bottom
+                ) {
+                    ChargerAnnotation(station: station)
                 }
-                .padding()
-                .background(.ultraThinMaterial)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                .padding()
+                .tag(station)
             }
         }
-        .sheet(item: $selectedStation) { station in
-            ChargerDetailView(station: station)
-                .presentationDetents([.medium, .large])
-                .presentationDragIndicator(.visible)
+        .mapStyle(.standard(elevation: .realistic))
+        .mapControls {
+            MapUserLocationButton()
+            MapCompass()
         }
-        .sheet(isPresented: $showingList) {
-            NavigationStack {
-                ChargerListView(viewModel: viewModel)
+        .onMapCameraChange(frequency: .onEnd) { context in
+            Task {
+                await viewModel.fetchChargers(
+                    at: context.region.center,
+                    radiusKm: regionRadiusKm(context.region)
+                )
             }
         }
-        .sheet(isPresented: $showingSettings) {
-            SettingsView()
+        // Bottom sheet (Apple Maps style)
+        .sheet(isPresented: .constant(true)) {
+            ChargerSheetContent(
+                viewModel: viewModel,
+                selectedStation: $selectedStation,
+                showingSettings: $showingSettings
+            )
+            .presentationDetents([.height(120), .medium, .large], selection: $sheetDetent)
+            .presentationDragIndicator(.visible)
+            .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+            .interactiveDismissDisabled()
         }
         .task {
             await viewModel.fetchNearbyChargers()
         }
     }
     
-    /// Calculate approximate radius in km from map region span
     private func regionRadiusKm(_ region: MKCoordinateRegion) -> Double {
         let latDelta = region.span.latitudeDelta
-        // Approximate: 1 degree latitude ≈ 111 km
         let radiusKm = (latDelta * 111) / 2
-        return max(1, min(radiusKm, 50)) // Clamp between 1-50 km
+        return max(1, min(radiusKm, 50))
+    }
+}
+
+// MARK: - Sheet Content
+
+struct ChargerSheetContent: View {
+    @Bindable var viewModel: ChargersViewModel
+    @Binding var selectedStation: ChargingStation?
+    @Binding var showingSettings: Bool
+    
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 0) {
+                // Compact header (always visible)
+                VStack(spacing: 30) {
+                    HStack {
+                        // Dynamic title
+                        Group {
+                            if viewModel.isLoading {
+                                Text("Finding chargers...")
+                            } else if viewModel.error != nil {
+                                Text("Unable to load")
+                                    .foregroundStyle(.orange)
+                            } else {
+                                Text("\(viewModel.stations.count) Chargers Nearby")
+                            }
+                        }
+                        .font(.title2.bold())
+                        .contentTransition(.numericText())
+                        
+                        Spacer()
+                        
+                        Button { showingSettings = true } label: {
+                            Image(systemName: "gearshape.fill")
+                                .font(.title2)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    
+                    // Filter chips
+                    ConnectorFilterView(selectedConnector: $viewModel.selectedConnector)
+                }
+                .padding(.horizontal)
+                .padding(.top, 24)
+                .padding(.bottom, 16)
+                
+                Divider()
+                
+                // List (visible when expanded)
+                // List (visible when expanded)
+                List {
+                    ForEach(viewModel.stations, id: \.id) { station in
+                        Button {
+                            selectedStation = station
+                        } label: {
+                            ChargerRowView(
+                                station: station,
+                                userLocation: viewModel.currentUserLocation
+                            )
+                        }
+                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                        .foregroundStyle(.primary)
+                    }
+                }
+                .listStyle(.plain)
+            }
+        }
+        .sheet(isPresented: $showingSettings) {
+            SettingsView()
+        }
+        .sheet(item: $selectedStation) { station in
+            ChargerDetailView(station: station)
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
+        }
     }
 }
 
 // MARK: - Charger Annotation
 
-/// Custom annotation view for charging station pins
 struct ChargerAnnotation: View {
     let station: ChargingStation
     
     var body: some View {
         ZStack {
-            // Background circle
             Circle()
                 .fill(statusColor.gradient)
                 .frame(width: 36, height: 36)
                 .shadow(color: statusColor.opacity(0.5), radius: 4, y: 2)
             
-            // Icon
             Image(systemName: "bolt.fill")
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundStyle(.white)
@@ -174,19 +165,13 @@ struct ChargerAnnotation: View {
     
     private var statusColor: Color {
         switch station.statusType {
-        case .available:
-            return .green
-        case .occupied:
-            return .orange
-        case .outOfService:
-            return .red
-        case .unknown, .none:
-            return .blue
+        case .available: return .green
+        case .occupied: return .orange
+        case .outOfService: return .red
+        case .unknown, .none: return .blue
         }
     }
 }
-
-// MARK: - Preview
 
 #Preview {
     ChargerMapView(viewModel: ChargersViewModel())

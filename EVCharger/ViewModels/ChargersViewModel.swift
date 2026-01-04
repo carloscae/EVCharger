@@ -66,7 +66,7 @@ final class ChargersViewModel {
     // MARK: - Initialization
     
     init(
-        apiService: OpenChargeMapService = OpenChargeMapService(),
+        apiService: OpenChargeMapService = OpenChargeMapService(apiKey: APIConfig.openChargeMapAPIKey),
         locationService: LocationService = LocationService(),
         networkMonitor: NetworkMonitor = NetworkMonitor()
     ) {

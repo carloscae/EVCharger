@@ -52,14 +52,11 @@ struct ChargerDetailView: View {
                     
                     // Connectors section
                     VStack(alignment: .leading, spacing: 12) {
-                        Label("Connectors", systemImage: "ev.plug.dc.ccs1")
+                        Text("Connectors")
                             .font(.headline)
                         
-                        HStack(spacing: 8) {
-                            ForEach(station.connectorTypes, id: \.self) { connector in
-                                ConnectorBadgeView(connector: connector, size: .large)
-                            }
-                            Spacer()
+                        ForEach(station.connectorTypes, id: \.self) { connector in
+                            ConnectorCardView(connector: connector)
                         }
                     }
                     

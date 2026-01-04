@@ -7,102 +7,99 @@
 
 import SwiftUI
 
-/// Badge view displaying a connector type with icon and label.
+/// Compact badge for list views - text only, no icon
 struct ConnectorBadgeView: View {
     
     let connector: ConnectorType
-    var size: BadgeSize = .regular
-    
-    enum BadgeSize {
-        case small, regular, large
-        
-        var iconFont: Font {
-            switch self {
-            case .small: return .system(size: 8)
-            case .regular: return .caption2
-            case .large: return .caption
-            }
-        }
-        
-        var labelFont: Font {
-            switch self {
-            case .small: return .system(size: 9, weight: .medium)
-            case .regular: return .caption2.weight(.medium)
-            case .large: return .caption.weight(.medium)
-            }
-        }
-        
-        var horizontalPadding: CGFloat {
-            switch self {
-            case .small: return 6
-            case .regular: return 8
-            case .large: return 10
-            }
-        }
-        
-        var verticalPadding: CGFloat {
-            switch self {
-            case .small: return 3
-            case .regular: return 4
-            case .large: return 6
-            }
-        }
-    }
     
     var body: some View {
-        HStack(spacing: 3) {
-            Image(systemName: connector.sfSymbol)
-                .font(size.iconFont)
-            
-            Text(connector.displayName)
-                .font(size.labelFont)
-        }
-        .padding(.horizontal, size.horizontalPadding)
-        .padding(.vertical, size.verticalPadding)
-        .background(
-            Capsule()
-                .fill(connectorColor.opacity(0.15))
-        )
-        .foregroundStyle(connectorColor)
+        Text(connector.displayName)
+            .font(.caption2.weight(.medium))
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(
+                Capsule()
+                    .fill(connectorColor.opacity(0.15))
+            )
+            .foregroundStyle(connectorColor)
     }
     
     private var connectorColor: Color {
         switch connector {
-        case .ccs:
-            return .blue
-        case .chademo:
-            return .orange
-        case .tesla:
-            return .red
-        case .j1772:
-            return .green
-        case .type2:
-            return .purple
+        case .ccs: return .blue
+        case .chademo: return .orange
+        case .tesla: return .red
+        case .j1772: return .green
+        case .type2: return .purple
+        }
+    }
+}
+
+/// Large connector card for detail views - prominent icon + name + hint
+struct ConnectorCardView: View {
+    
+    let connector: ConnectorType
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            // Large icon
+            Image(systemName: connector.sfSymbol)
+                .font(.title2)
+                .foregroundStyle(connectorColor)
+                .frame(width: 44, height: 44)
+                .background(
+                    Circle()
+                        .fill(connectorColor.opacity(0.12))
+                )
+            
+            // Name and hint
+            VStack(alignment: .leading, spacing: 2) {
+                Text(connector.displayName)
+                    .font(.headline)
+                    .foregroundStyle(.primary)
+                Text(connector.hint)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            
+            Spacer()
+        }
+        .padding(.vertical, 8)
+        .padding(.horizontal, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color(.secondarySystemBackground))
+        )
+    }
+    
+    private var connectorColor: Color {
+        switch connector {
+        case .ccs: return .blue
+        case .chademo: return .orange
+        case .tesla: return .red
+        case .j1772: return .green
+        case .type2: return .purple
         }
     }
 }
 
 // MARK: - Preview
 
-#Preview {
-    VStack(spacing: 16) {
-        HStack {
-            ForEach(ConnectorType.allCases) { connector in
-                ConnectorBadgeView(connector: connector, size: .small)
-            }
-        }
-        
-        HStack {
-            ForEach(ConnectorType.allCases) { connector in
-                ConnectorBadgeView(connector: connector, size: .regular)
-            }
-        }
-        
-        HStack {
-            ForEach(ConnectorType.allCases) { connector in
-                ConnectorBadgeView(connector: connector, size: .large)
-            }
+#Preview("Compact Badges") {
+    HStack {
+        ForEach(ConnectorType.allCases) { connector in
+            ConnectorBadgeView(connector: connector)
         }
     }
     .padding()
 }
+
+#Preview("Detail Cards") {
+    VStack(spacing: 12) {
+        ForEach(ConnectorType.allCases) { connector in
+            ConnectorCardView(connector: connector)
+        }
+    }
+    .padding()
+}
+

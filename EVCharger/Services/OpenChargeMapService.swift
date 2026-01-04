@@ -238,8 +238,20 @@ struct OCMPoi: Decodable {
             return Date()
         }()
         
+        // Create deterministic UUID from numeric ID - ensures same station = same UUID across restarts
+        let stationUUID: UUID = {
+            if let uuidString = ocmUUID, let uuid = UUID(uuidString: uuidString) {
+                return uuid
+            }
+            // Use a namespace-based approach: pad the numeric ID into a UUID format
+            // OCM IDs are numeric, so we create a reproducible UUID
+            let paddedHex = String(format: "%032x", ID)
+            let uuidString = "\(paddedHex.prefix(8))-\(paddedHex.dropFirst(8).prefix(4))-\(paddedHex.dropFirst(12).prefix(4))-\(paddedHex.dropFirst(16).prefix(4))-\(paddedHex.dropFirst(20))"
+            return UUID(uuidString: uuidString) ?? UUID()
+        }()
+        
         return ChargingStation(
-            id: UUID(uuidString: ocmUUID ?? "") ?? UUID(),
+            id: stationUUID,
             name: address.Title ?? "Charging Station",
             operatorName: OperatorInfo?.Title,
             address: address.formattedAddress,

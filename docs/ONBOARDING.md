@@ -17,6 +17,7 @@ Welcome to EVCharger! This doc gets you productive in 5 minutes.
 3. ❌ **No user accounts** — local storage only
 4. ❌ **No ads** — Apple prohibits in CarPlay
 5. ✅ **CarPlay-first** — iPhone is secondary
+6. ✅ **Swift-native only** — Objective-C code (`@objc`, NSObject, etc.) requires explicit user authorization
 
 ---
 

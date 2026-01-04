@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 import MapKit
 
 /// Detail view for a charging station showing full info and navigation.
@@ -14,8 +15,10 @@ struct ChargerDetailView: View {
     let station: ChargingStation
     let userLocation: CLLocation?
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
     @State private var estimatedTravelTime: TimeInterval?
     @State private var isCalculatingETA = true
+    @State private var isFavorite = false
     
     var body: some View {
         ScrollView {
@@ -52,6 +55,16 @@ struct ChargerDetailView: View {
                         }
                         
                         Spacer()
+                        
+                        // Favorite button
+                        Button {
+                            toggleFavorite()
+                        } label: {
+                            Image(systemName: isFavorite ? "star.fill" : "star")
+                                .font(.title2)
+                                .foregroundStyle(isFavorite ? .yellow : .secondary)
+                        }
+                        .buttonStyle(.plain)
                         
                         // Right: Navigation button (Apple Maps style)
                         NavigationButton(
@@ -99,6 +112,14 @@ struct ChargerDetailView: View {
         .navigationTitle("Station Details")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    toggleFavorite()
+                } label: {
+                    Image(systemName: isFavorite ? "star.fill" : "star")
+                        .foregroundStyle(isFavorite ? .yellow : .secondary)
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     dismiss()
@@ -111,6 +132,10 @@ struct ChargerDetailView: View {
         .task {
             await calculateETA()
         }
+        .onAppear {
+            checkIfFavorite()
+            trackRecentView()
+        }
     }
     
     private var stationRegion: MKCoordinateRegion {
@@ -118,6 +143,75 @@ struct ChargerDetailView: View {
             center: station.coordinate,
             span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         )
+    }
+    
+    private func checkIfFavorite() {
+        let stationId = station.id
+        let descriptor = FetchDescriptor<FavoriteStation>(
+            predicate: #Predicate { $0.stationId == stationId }
+        )
+        do {
+            let favorites = try modelContext.fetch(descriptor)
+            isFavorite = !favorites.isEmpty
+        } catch {
+            print("Failed to check favorite status: \(error)")
+        }
+    }
+    
+    private func toggleFavorite() {
+        let stationId = station.id
+        let descriptor = FetchDescriptor<FavoriteStation>(
+            predicate: #Predicate { $0.stationId == stationId }
+        )
+        
+        do {
+            let existing = try modelContext.fetch(descriptor)
+            if let favorite = existing.first {
+                // Remove from favorites
+                modelContext.delete(favorite)
+                isFavorite = false
+            } else {
+                // Add to favorites
+                let newFavorite = FavoriteStation(stationId: stationId)
+                modelContext.insert(newFavorite)
+                isFavorite = true
+            }
+            try modelContext.save()
+        } catch {
+            print("Failed to toggle favorite: \(error)")
+        }
+    }
+    
+    private func trackRecentView() {
+        let stationId = station.id
+        let descriptor = FetchDescriptor<RecentStation>(
+            predicate: #Predicate { $0.stationId == stationId }
+        )
+        
+        do {
+            // Update existing or create new
+            let existing = try modelContext.fetch(descriptor)
+            if let recent = existing.first {
+                recent.viewedAt = Date()
+            } else {
+                let newRecent = RecentStation(stationId: stationId)
+                modelContext.insert(newRecent)
+            }
+            
+            // Prune to last 10
+            let allRecents = try modelContext.fetch(FetchDescriptor<RecentStation>(
+                sortBy: [SortDescriptor(\.viewedAt, order: .reverse)]
+            ))
+            if allRecents.count > 10 {
+                for recent in allRecents.dropFirst(10) {
+                    modelContext.delete(recent)
+                }
+            }
+            
+            try modelContext.save()
+        } catch {
+            print("Failed to track recent view: \(error)")
+        }
     }
     
     private func calculateETA() async {

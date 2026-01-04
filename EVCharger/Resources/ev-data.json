@@ -1,0 +1,275 @@
+[
+    {
+        "id": "tesla_model_3_lr",
+        "brand": "Tesla",
+        "model": "Model 3",
+        "variant": "Long Range",
+        "year": 2024,
+        "batteryCapacityKwh": 82,
+        "usableCapacityKwh": 78.4,
+        "rangeKm": 560,
+        "rangeMiles": 348,
+        "maxDcChargingKw": 250,
+        "connectorTypes": [
+            "CCS",
+            "Tesla"
+        ]
+    },
+    {
+        "id": "tesla_model_y_lr",
+        "brand": "Tesla",
+        "model": "Model Y",
+        "variant": "Long Range",
+        "year": 2024,
+        "batteryCapacityKwh": 82,
+        "usableCapacityKwh": 78.4,
+        "rangeKm": 505,
+        "rangeMiles": 314,
+        "maxDcChargingKw": 250,
+        "connectorTypes": [
+            "CCS",
+            "Tesla"
+        ]
+    },
+    {
+        "id": "tesla_model_s_lr",
+        "brand": "Tesla",
+        "model": "Model S",
+        "variant": "Long Range",
+        "year": 2024,
+        "batteryCapacityKwh": 100,
+        "usableCapacityKwh": 95,
+        "rangeKm": 640,
+        "rangeMiles": 398,
+        "maxDcChargingKw": 250,
+        "connectorTypes": [
+            "CCS",
+            "Tesla"
+        ]
+    },
+    {
+        "id": "ford_mach_e_er",
+        "brand": "Ford",
+        "model": "Mustang Mach-E",
+        "variant": "Extended Range",
+        "year": 2024,
+        "batteryCapacityKwh": 91,
+        "usableCapacityKwh": 88,
+        "rangeKm": 470,
+        "rangeMiles": 292,
+        "maxDcChargingKw": 150,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "hyundai_ioniq5_lr",
+        "brand": "Hyundai",
+        "model": "IONIQ 5",
+        "variant": "Long Range AWD",
+        "year": 2024,
+        "batteryCapacityKwh": 77.4,
+        "usableCapacityKwh": 74,
+        "rangeKm": 430,
+        "rangeMiles": 267,
+        "maxDcChargingKw": 220,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "hyundai_ioniq6_lr",
+        "brand": "Hyundai",
+        "model": "IONIQ 6",
+        "variant": "Long Range",
+        "year": 2024,
+        "batteryCapacityKwh": 77.4,
+        "usableCapacityKwh": 74,
+        "rangeKm": 540,
+        "rangeMiles": 336,
+        "maxDcChargingKw": 220,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "kia_ev6_lr",
+        "brand": "Kia",
+        "model": "EV6",
+        "variant": "Long Range AWD",
+        "year": 2024,
+        "batteryCapacityKwh": 77.4,
+        "usableCapacityKwh": 74,
+        "rangeKm": 450,
+        "rangeMiles": 280,
+        "maxDcChargingKw": 240,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "kia_ev9_lr",
+        "brand": "Kia",
+        "model": "EV9",
+        "variant": "Long Range AWD",
+        "year": 2024,
+        "batteryCapacityKwh": 99.8,
+        "usableCapacityKwh": 96,
+        "rangeKm": 440,
+        "rangeMiles": 273,
+        "maxDcChargingKw": 240,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "rivian_r1t",
+        "brand": "Rivian",
+        "model": "R1T",
+        "variant": "Large Pack",
+        "year": 2024,
+        "batteryCapacityKwh": 135,
+        "usableCapacityKwh": 128,
+        "rangeKm": 520,
+        "rangeMiles": 323,
+        "maxDcChargingKw": 220,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "rivian_r1s",
+        "brand": "Rivian",
+        "model": "R1S",
+        "variant": "Large Pack",
+        "year": 2024,
+        "batteryCapacityKwh": 135,
+        "usableCapacityKwh": 128,
+        "rangeKm": 500,
+        "rangeMiles": 311,
+        "maxDcChargingKw": 220,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "chevy_bolt_euv",
+        "brand": "Chevrolet",
+        "model": "Bolt EUV",
+        "variant": "Standard",
+        "year": 2023,
+        "batteryCapacityKwh": 65,
+        "usableCapacityKwh": 62,
+        "rangeKm": 400,
+        "rangeMiles": 248,
+        "maxDcChargingKw": 55,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "bmw_i4_edrive40",
+        "brand": "BMW",
+        "model": "i4",
+        "variant": "eDrive40",
+        "year": 2024,
+        "batteryCapacityKwh": 83.9,
+        "usableCapacityKwh": 80.7,
+        "rangeKm": 490,
+        "rangeMiles": 305,
+        "maxDcChargingKw": 205,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "mercedes_eqs_450",
+        "brand": "Mercedes-Benz",
+        "model": "EQS",
+        "variant": "450+",
+        "year": 2024,
+        "batteryCapacityKwh": 108.4,
+        "usableCapacityKwh": 104,
+        "rangeKm": 650,
+        "rangeMiles": 404,
+        "maxDcChargingKw": 200,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "porsche_taycan_4s",
+        "brand": "Porsche",
+        "model": "Taycan",
+        "variant": "4S Performance",
+        "year": 2024,
+        "batteryCapacityKwh": 93.4,
+        "usableCapacityKwh": 90,
+        "rangeKm": 465,
+        "rangeMiles": 289,
+        "maxDcChargingKw": 270,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "vw_id4_pro",
+        "brand": "Volkswagen",
+        "model": "ID.4",
+        "variant": "Pro S",
+        "year": 2024,
+        "batteryCapacityKwh": 82,
+        "usableCapacityKwh": 77,
+        "rangeKm": 440,
+        "rangeMiles": 273,
+        "maxDcChargingKw": 170,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "nissan_leaf_plus",
+        "brand": "Nissan",
+        "model": "Leaf",
+        "variant": "Plus",
+        "year": 2024,
+        "batteryCapacityKwh": 62,
+        "usableCapacityKwh": 59,
+        "rangeKm": 356,
+        "rangeMiles": 221,
+        "maxDcChargingKw": 100,
+        "connectorTypes": [
+            "CHAdeMO"
+        ]
+    },
+    {
+        "id": "polestar_2_lr",
+        "brand": "Polestar",
+        "model": "Polestar 2",
+        "variant": "Long Range Single Motor",
+        "year": 2024,
+        "batteryCapacityKwh": 82,
+        "usableCapacityKwh": 79,
+        "rangeKm": 520,
+        "rangeMiles": 323,
+        "maxDcChargingKw": 205,
+        "connectorTypes": [
+            "CCS"
+        ]
+    },
+    {
+        "id": "lucid_air_touring",
+        "brand": "Lucid",
+        "model": "Air",
+        "variant": "Touring",
+        "year": 2024,
+        "batteryCapacityKwh": 112,
+        "usableCapacityKwh": 107,
+        "rangeKm": 660,
+        "rangeMiles": 410,
+        "maxDcChargingKw": 300,
+        "connectorTypes": [
+            "CCS"
+        ]
+    }
+]

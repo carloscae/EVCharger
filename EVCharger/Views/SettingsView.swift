@@ -14,45 +14,110 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
-    @AppStorage("defaultConnector") private var defaultConnectorRaw: String = ""
+    @AppStorage("preferredConnectors") private var preferredConnectorsData: Data = Data()
+    @AppStorage("userVehicle") private var userVehicleData: Data = Data()
+    @AppStorage("preferFastChargers") private var preferFastChargers = true
     @State private var showingClearCacheAlert = false
+    @State private var showingVehiclePicker = false
     @State private var cacheInfo: CacheInfo = CacheInfo()
+    @State private var vehicleSearchText = ""
     
-    /// Current default connector preference
-    private var defaultConnector: ConnectorType? {
-        get { ConnectorType(rawValue: defaultConnectorRaw) }
-        set { defaultConnectorRaw = newValue?.rawValue ?? "" }
+    /// Current preferred connectors (multi-select)
+    private var preferredConnectors: Set<ConnectorType> {
+        get {
+            (try? JSONDecoder().decode(Set<ConnectorType>.self, from: preferredConnectorsData)) ?? []
+        }
+        set {
+            preferredConnectorsData = (try? JSONEncoder().encode(newValue)) ?? Data()
+        }
+    }
+    
+    /// Current user vehicle
+    private var userVehicle: UserVehicle {
+        (try? JSONDecoder().decode(UserVehicle.self, from: userVehicleData)) ?? .empty
     }
     
     var body: some View {
         NavigationStack {
             List {
-                // MARK: - Preferences
+                // MARK: - My Vehicle
                 Section {
-                    // Default connector picker
-                    Picker("Default Connector", selection: Binding(
-                        get: { defaultConnectorRaw },
-                        set: { defaultConnectorRaw = $0 }
-                    )) {
-                        Text("All Types").tag("")
-                        ForEach(ConnectorType.allCases) { connector in
-                            Label {
-                                VStack(alignment: .leading) {
+                    Button {
+                        showingVehiclePicker = true
+                    } label: {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(userVehicle.displayName)
+                                    .foregroundStyle(.primary)
+                                if userVehicle.vehicleId != nil {
+                                    Text("\(userVehicle.rangeKm) km • \(userVehicle.maxDcChargingKw) kW DC")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .buttonStyle(.plain)
+                } header: {
+                    Text("My Vehicle")
+                } footer: {
+                    Text("Required for route planning with charging stops")
+                }
+                
+                // MARK: - Route Planning Preferences
+                Section {
+                    Toggle(isOn: $preferFastChargers) {
+                        Label("Prefer Fast Chargers", systemImage: "bolt.fill")
+                    }
+                } header: {
+                    Text("Route Planning")
+                } footer: {
+                    Text("Prioritize CCS and Tesla Superchargers for shorter charging times")
+                }
+                
+                // MARK: - Connector Preferences
+                Section {
+                    ForEach(ConnectorType.allCases) { connector in
+                        Button {
+                            toggleConnector(connector)
+                        } label: {
+                            HStack {
+                                Image(systemName: connector.sfSymbol)
+                                    .foregroundStyle(.primary)
+                                    .frame(width: 30)
+                                
+                                VStack(alignment: .leading, spacing: 2) {
                                     Text(connector.displayName)
+                                        .foregroundStyle(.primary)
                                     Text(connector.hint)
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                 }
-                            } icon: {
-                                Image(systemName: connector.sfSymbol)
+                                
+                                Spacer()
+                                
+                                if preferredConnectors.contains(connector) {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundStyle(.green)
+                                } else {
+                                    Image(systemName: "circle")
+                                        .foregroundStyle(.secondary)
+                                }
                             }
-                            .tag(connector.rawValue)
                         }
+                        .buttonStyle(.plain)
                     }
                 } header: {
-                    Text("Preferences")
+                    Text("Preferred Connectors")
                 } footer: {
-                    Text("Filter chargers by your preferred connector type")
+                    if preferredConnectors.isEmpty {
+                        Text("Tap to select your car's connector types. All types shown when none selected.")
+                    } else {
+                        Text("\(preferredConnectors.count) selected — Used for Siri \"Navigate to charger\" command")
+                    }
                 }
                 
                 // MARK: - Cache
@@ -126,7 +191,35 @@ struct SettingsView: View {
             .onAppear {
                 loadCacheInfo()
             }
+            .sheet(isPresented: $showingVehiclePicker) {
+                VehiclePickerView(
+                    searchText: $vehicleSearchText,
+                    onSelect: { vehicle in
+                        selectVehicle(vehicle)
+                        showingVehiclePicker = false
+                    }
+                )
+            }
         }
+    }
+    
+    // MARK: - Vehicle Selection
+    
+    private func selectVehicle(_ vehicle: EVVehicle) {
+        let userVehicle = UserVehicle.from(vehicle)
+        userVehicleData = (try? JSONEncoder().encode(userVehicle)) ?? Data()
+    }
+    
+    // MARK: - Connector Toggle
+    
+    private func toggleConnector(_ connector: ConnectorType) {
+        var current = (try? JSONDecoder().decode(Set<ConnectorType>.self, from: preferredConnectorsData)) ?? []
+        if current.contains(connector) {
+            current.remove(connector)
+        } else {
+            current.insert(connector)
+        }
+        preferredConnectorsData = (try? JSONEncoder().encode(current)) ?? Data()
     }
     
     // MARK: - App Info

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import SwiftData
 
 /// Main map view displaying nearby charging stations.
 /// Apple Maps style with draggable bottom sheet and floating controls.
@@ -76,12 +77,44 @@ struct ChargerSheetContent: View {
     @Bindable var viewModel: ChargersViewModel
     @Binding var selectedStation: ChargingStation?
     @Binding var showingSettings: Bool
+    @State private var showingRoutePlanner = false
+    @State private var showingFavoritesList = false
+    @State private var showingRecentsList = false
+    
+    @Query(sort: \FavoriteStation.favoritedAt, order: .reverse) 
+    private var favoriteStations: [FavoriteStation]
+    
+    @Query(sort: \RecentStation.viewedAt, order: .reverse)
+    private var recentStations: [RecentStation]
+    
+    @Query
+    private var cachedStations: [ChargingStation]
+    
+    /// All available stations - prefer live data, fallback to cache
+    private var allStations: [ChargingStation] {
+        viewModel.stations.isEmpty ? cachedStations : viewModel.stations
+    }
+    
+    /// Favorite stations matched with actual station data
+    private var favorites: [ChargingStation] {
+        let favoriteIds = Set(favoriteStations.map(\.stationId))
+        return allStations.filter { favoriteIds.contains($0.id) }
+    }
+    
+    /// Recent stations matched with actual station data (excluding favorites)
+    private var recents: [ChargingStation] {
+        let favoriteIds = Set(favoriteStations.map(\.stationId))
+        let recentIds = recentStations.prefix(5).map(\.stationId)
+        return recentIds.compactMap { id in
+            allStations.first { $0.id == id && !favoriteIds.contains($0.id) }
+        }
+    }
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
                 // Compact header (always visible)
-                VStack(spacing: 30) {
+                VStack(spacing: 20) {
                     HStack {
                         // Dynamic title
                         Group {
@@ -102,6 +135,13 @@ struct ChargerSheetContent: View {
                         
                         Spacer()
                         
+                        // Route Planner button
+                        Button { showingRoutePlanner = true } label: {
+                            Image(systemName: "map.fill")
+                                .font(.title2)
+                                .foregroundStyle(.blue)
+                        }
+                        
                         Button { showingSettings = true } label: {
                             Image(systemName: "gearshape.fill")
                                 .font(.title2)
@@ -116,10 +156,40 @@ struct ChargerSheetContent: View {
                 .padding(.top, 24)
                 .padding(.bottom, 16)
                 
-                Divider()
+                // Favorites & Recents (eager loaded - visible immediately)
+                if !favorites.isEmpty {
+                    StationChipsSection(
+                        title: "Favorites",
+                        icon: "star.fill",
+                        stations: favorites,
+                        userLocation: viewModel.currentUserLocation,
+                        onSelect: { station in
+                            selectedStation = station
+                        },
+                        onSeeAll: {
+                            showingFavoritesList = true
+                        }
+                    )
+                    .padding(.bottom, 18)
+                }
                 
-                // List (visible when expanded)
-                // List (visible when expanded)
+                if !recents.isEmpty {
+                    StationChipsSection(
+                        title: "Recent",
+                        icon: "clock",
+                        stations: recents,
+                        userLocation: viewModel.currentUserLocation,
+                        onSelect: { station in
+                            selectedStation = station
+                        },
+                        onSeeAll: {
+                            showingRecentsList = true
+                        }
+                    )
+                    .padding(.bottom, 18)
+                }
+                
+                // Main station list (lazy loaded - efficient for 200+ stations)
                 List {
                     ForEach(viewModel.stations, id: \.id) { station in
                         Button {
@@ -140,6 +210,9 @@ struct ChargerSheetContent: View {
         .sheet(isPresented: $showingSettings) {
             SettingsView()
         }
+        .sheet(isPresented: $showingRoutePlanner) {
+            RoutePlannerView()
+        }
         .sheet(item: $selectedStation) { station in
             ChargerDetailView(
                 station: station,
@@ -147,6 +220,26 @@ struct ChargerSheetContent: View {
             )
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
+        }
+        .sheet(isPresented: $showingFavoritesList) {
+            StationListView(
+                title: "Favorites",
+                stations: favorites,
+                userLocation: viewModel.currentUserLocation
+            ) { station in
+                showingFavoritesList = false
+                selectedStation = station
+            }
+        }
+        .sheet(isPresented: $showingRecentsList) {
+            StationListView(
+                title: "Recent",
+                stations: recents,
+                userLocation: viewModel.currentUserLocation
+            ) { station in
+                showingRecentsList = false
+                selectedStation = station
+            }
         }
     }
 }

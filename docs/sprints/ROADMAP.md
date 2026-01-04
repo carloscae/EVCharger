@@ -1,93 +1,87 @@
 # EVCharger Sprint Roadmap
 
 **Project Start:** 2026-01-03  
-**Target MVP:** Sprint 4 complete  
-**Target App Store:** Post-Sprint 5
+**Target MVP:** Sprint 4 complete ✅  
+**Target App Store:** Post-Sprint 10
 
 ---
 
 ## Sprint Timeline
 
-| Sprint | Duration | Goal | Key Deliverables |
-|--------|----------|------|------------------|
-| **Sprint 1** | ~5 days | Foundation | Xcode project, models, API service, shared layer |
-| **Sprint 2** | ~5 days | iPhone App | Map view, list view, detail view, navigation |
-| **Sprint 3** | ~4 days | CarPlay | CarPlay templates, connector filter, shared ViewModel |
-| **Sprint 4** | ~4 days | Polish & Premium | Caching, offline mode, IAP, settings |
-| **Sprint 5** | ~3 days | Release Prep | App Store assets, entitlement, TestFlight |
+| Sprint | Duration | Goal | Status |
+|--------|----------|------|--------|
+| Sprint 1 | ~5 days | Foundation | ✅ Complete |
+| Sprint 2 | ~5 days | iPhone App | ✅ Complete |
+| Sprint 3 | ~4 days | CarPlay | ✅ Complete |
+| Sprint 4 | ~4 days | Polish & Premium | ✅ Complete |
+| Sprint 5 | ~2 days | Quick Wins | ✅ Complete |
+| Sprint 6 | ~2 days | Platform Integration | ✅ Complete |
+| Sprint 7 | ~3 days | Route Planner Core | ✅ Complete |
+| Sprint 8 | ~2 days | Smart Features | ✅ Complete |
+| Sprint 9 | ~2 days | CarPlay Routes | ✅ Complete |
+| Sprint 10 | ~3 days | Release Prep | 🔄 Active |
 
 ---
 
-## Sprint 1: Foundation
+## Sprint 5: Quick Wins
 
-**Goal:** Establish project structure and shared data layer
+**Goal:** User engagement features
 
-**Success Criteria:**
-- [ ] Xcode project builds and runs
-- [ ] Data models compile
-- [ ] Open Charge Map API returns data
-- [ ] LocationService provides user position
-- [ ] CarPlay entitlement requested
+- Favorites (star toggle)
+- Recents (last 10 detail views)
+- Smart Sorting (distance/speed/availability)
 
 ---
 
-## Sprint 2: iPhone App
+## Sprint 6: Platform Integration
 
-**Goal:** Complete iPhone experience with map and list views
+**Goal:** iOS platform features
 
-**Success Criteria:**
-- [ ] Map view shows charger pins
-- [ ] List view with search/filter
-- [ ] Detail view with charger info
-- [ ] Navigate button opens Apple Maps
-- [ ] Connector type filter works
+- ~~Lock Screen Widget~~ (deferred to Sprint 10)
+- Siri Integration (2 intents) ✅
+- Multi-connector selection UI ✅
 
 ---
 
-## Sprint 3: CarPlay
+## Sprint 7: Route Planner Core
 
-**Goal:** Complete CarPlay experience (reuses shared layer)
+**Goal:** Basic route planning
 
-**Success Criteria:**
-- [ ] CarPlay shows nearby chargers list
-- [ ] Tap charger → see details
-- [ ] Tap navigate → opens Apple Maps
-- [ ] Connector filter works
-- [ ] Same ViewModel as iPhone
+- Bundle OpenEV Data JSON
+- Vehicle Settings (pre-fill + edit + iCloud)
+- Route calculation
+- Route alternatives
 
 ---
 
-## Sprint 4: Polish & Premium
+## Sprint 8: Smart Features
 
-**Goal:** Production-ready app with monetization
+**Goal:** Intelligent route planning
 
-**Success Criteria:**
-- [ ] 24-hour caching implemented
-- [ ] Works offline with cached data
-- [ ] Premium IAP flows work
-- [ ] Settings screen complete
-
----
-
-## Sprint 5: Release Prep
-
-**Goal:** App Store submission ready
-
-**Success Criteria:**
-- [ ] App Store screenshots (iPhone + CarPlay)
-- [ ] Privacy policy published
-- [ ] CarPlay entitlement approved
-- [ ] TestFlight build distributed
+- Fast charger preference
+- Amenity search (MapKit)
+- WeatherKit integration
+- Route overlay + Skip/Stop Now
 
 ---
 
-## Post-MVP Backlog
+## Sprint 9: CarPlay Routes
 
-| Feature | Priority | Notes |
-|---------|----------|-------|
-| Favorite chargers | P2 | Save preferred locations |
-| Multi-vehicle profiles | P2 | Store connector prefs per vehicle |
-| Real-time availability | P2 | Live status from Open Charge Map |
-| iOS Widget | P3 | Quick glance at nearest chargers |
-| Apple Watch | P3 | Tied to real-time status feature |
-| Localization | P3 | Multi-language support |
+**Goal:** CarPlay route experience
+
+- Navigation entitlement
+- CarPlay route view
+- Segment navigation
+
+---
+
+## Sprint 10: Release Prep
+
+**Goal:** App Store submission
+
+- Lock Screen Widget (deferred from Sprint 6)
+- **Localization** (Siri phrases, UI strings)
+- App Store screenshots
+- Privacy policy
+- Metadata & keywords
+- TestFlight distribution

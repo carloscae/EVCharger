@@ -1,136 +1,72 @@
-# Sprint 5: Release Prep
+# Sprint 5: Quick Wins
 
 **Start Date:** 2026-01-04  
-**Target Duration:** ~3 days  
-**Goal:** App Store submission ready
-
----
-
-## Role Summary
-
-| Role | Tasks |
-|------|-------|
-| **UI Developer** | S5-01 (App Icons), S5-02 (Screenshots) |
-| **Product Lead** | S5-03 (App Store Listing), S5-04 (Legal), S5-05 (TestFlight) |
+**Target Duration:** ~2 days  
+**Goal:** User engagement features
 
 ---
 
 ## Tasks
 
-### S5-01: Create App Icons
-**Role:** UI Developer  
-**Status:** `[x]` Complete (Map-Maven @ 2026-01-04T09:31)  
-**Dependencies:** None  
+### S5-01: Favorites Feature
+**Status:** `[x]` Complete  
+**Estimated:** 2 hours
+
+**Deliverables:**
+- [x] Star toggle button in ChargerDetailView
+- [x] SwiftData `FavoriteStation` model
+- [x] Favorites persistence working
+
+**Files:**
+- `EVCharger/Models/FavoriteStation.swift`
+- `EVCharger/Views/ChargerDetailView.swift`
+- `EVCharger/Views/ChargerListView.swift`
+- `EVCharger/CarPlay/CarPlaySceneDelegate.swift`
+
+---
+
+### S5-02: Recents Feature
+**Status:** `[x]` Complete  
+**Estimated:** 2 hours
+
+**Deliverables:**
+- [x] SwiftData `RecentStation` model
+- [x] Track detail view opens
+- [x] Last 10 entries, auto-prune older
+
+**Files:**
+- `EVCharger/Models/RecentStation.swift`
+- `EVCharger/Views/ChargerDetailView.swift`
+- `EVCharger/Views/ChargerListView.swift`
+
+---
+
+### S5-03: Smart Sorting
+**Status:** `[x]` Complete  
 **Estimated:** 1 hour
 
 **Deliverables:**
-- [x] App icon design (green/electric theme)
-- [x] 1024x1024 App Store icon
-- [x] All required iOS sizes (via asset catalog)
-- [x] CarPlay icon variant (if required)
+- [x] SortOption enum (distance/speed/availability)
+- [x] Menu picker in ChargerListView header
+- [x] Sorting logic in ViewModel
 
 **Files:**
-- `EVCharger/Assets.xcassets/AppIcon.appiconset/`
-
----
-
-### S5-02: Create App Store Screenshots
-**Role:** UI Developer  
-**Status:** `[x]` Complete (Map-Maven @ 2026-01-04T09:32)  
-**Dependencies:** None  
-**Estimated:** 1.5 hours
-
-**Deliverables:**
-- [x] iPhone screenshots (6.7" required, 6.5" optional)
-- [x] CarPlay screenshots (optional, if entitlement approved)
-- [x] Screenshot captions highlighting key features
-- [x] 3-5 screenshots max (App Store best practice)
-
-**Files:**
-- `docs/appstore/screenshots/`
-
----
-
-### S5-03: Prepare App Store Listing
-**Role:** Product Lead  
-**Status:** `[ ]` Not Started  
-**Dependencies:** S5-01, S5-02  
-**Estimated:** 3 hours
-
-**Deliverables:**
-- [x] **Keyword research** (completed - see keyword_research.md artifact)
-- [ ] **App name:** AllCharge: EV Charger Finder (29 chars)
-- [ ] **Subtitle:** CarPlay Map, No Subscription (30 chars)
-- [ ] **Description** (4000 chars max)
-- [ ] **Keywords:** ev,electric car,tesla,charging station,carplay,ccs,chademo,j1772,fast charger,map,finder,open charge (99 chars)
-- [ ] What's New text
-- [ ] Category: Navigation (EV Charging)
-- [ ] Age rating questionnaire
-
-**Files:**
-- `docs/appstore/listing.md`
-
----
-
-### S5-04: Legal & Privacy
-**Role:** Product Lead  
-**Status:** `[ ]` Not Started  
-**Dependencies:** None  
-**Estimated:** 1 hour
-
-**Deliverables:**
-- [ ] Privacy Policy (hosted URL)
-- [ ] Terms of Service (optional)
-- [ ] App Privacy details for App Store
-- [ ] Data collection disclosure (location only)
-
-**Files:**
-- `docs/legal/privacy_policy.md`
-- Host on website or GitHub Pages
-
----
-
-### S5-05: TestFlight Distribution
-**Role:** Product Lead  
-**Status:** `[ ]` Not Started  
-**Dependencies:** S5-01, S5-03, S5-04, CarPlay Entitlement (S1-05)  
-**Estimated:** 1.5 hours
-
-**Deliverables:**
-- [ ] Archive build for App Store
-- [ ] Upload to App Store Connect
-- [ ] Configure TestFlight beta testing
-- [ ] Add external testers (if any)
-- [ ] Submit for beta app review
-
-**Files:**
-- Build artifacts
-
-**Blockers:**
-- Requires CarPlay entitlement approval (S1-05)
-- Requires Apple Developer enrollment complete
+- `EVCharger/Views/ChargerListView.swift`
+- `EVCharger/ViewModels/ChargersViewModel.swift`
+- `EVCharger/CarPlay/CarPlaySceneDelegate.swift`
 
 ---
 
 ## Success Criteria
 
-- [ ] App icon visible in all contexts
-- [ ] Screenshots ready for all required sizes
-- [ ] App Store listing complete
-- [ ] Privacy Policy published
-- [ ] TestFlight build distributed to testers
-- [ ] Ready for App Store review
+- [ ] Can star/unstar chargers, persists across launches
+- [ ] Recent chargers shown (last 10 detail views)
+- [ ] Can sort by distance, speed, or availability
+- [ ] All features work on iPhone and CarPlay
 
 ---
 
-## Blockers & Notes
+## Notes
 
-- **Apple Developer enrollment** must be complete
-- **CarPlay entitlement** (S1-05) must be approved before TestFlight
-- Privacy Policy needs hosting (GitHub Pages or similar)
-
----
-
-## Completed Tasks
-
-*Move completed tasks here with agent details.*
+- Favorites and Recents use SwiftData for persistence
+- Sorting applies to both nearby and search results

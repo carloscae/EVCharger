@@ -12,6 +12,23 @@ import Combine
 
 /// Main ViewModel for charger discovery.
 /// Integrates location and API services with offline-first caching.
+/// Sorting options for the charger list
+enum SortOption: String, CaseIterable, Identifiable {
+    case distance = "Distance"
+    case speed = "Speed"
+    case availability = "Availability"
+    
+    var id: String { rawValue }
+    
+    var icon: String {
+        switch self {
+        case .distance: return "location.fill"
+        case .speed: return "bolt.fill"
+        case .availability: return "checkmark.circle.fill"
+        }
+    }
+}
+
 @Observable
 @MainActor
 final class ChargersViewModel {
@@ -23,6 +40,11 @@ final class ChargersViewModel {
     
     /// Currently selected connector type filter (nil = show all)
     var selectedConnector: ConnectorType? = nil {
+        didSet { applyFilter() }
+    }
+    
+    /// Currently selected sort option
+    var selectedSortOption: SortOption = .distance {
         didSet { applyFilter() }
     }
     
@@ -235,13 +257,54 @@ final class ChargersViewModel {
             stations = allStations
         }
         
-        // Sort by distance if location available
-        if let userLocation = locationService.currentLocation {
-            stations.sort { station1, station2 in
-                let distance1 = station1.distance(from: userLocation)
-                let distance2 = station2.distance(from: userLocation)
-                return distance1 < distance2
+        // Apply selected sort option
+        switch selectedSortOption {
+        case .distance:
+            if let userLocation = locationService.currentLocation {
+                stations.sort { s1, s2 in
+                    s1.distance(from: userLocation) < s2.distance(from: userLocation)
+                }
             }
+            
+        case .speed:
+            // Sort by max power (kW) - higher first
+            // Use connector types as proxy (CCS/Tesla typically faster)
+            stations.sort { s1, s2 in
+                let power1 = maxPowerRating(for: s1)
+                let power2 = maxPowerRating(for: s2)
+                return power1 > power2
+            }
+            
+        case .availability:
+            // Sort by availability status
+            stations.sort { s1, s2 in
+                availabilityRank(s1.statusType) < availabilityRank(s2.statusType)
+            }
+        }
+    }
+    
+    /// Estimate power rating based on connector types
+    private func maxPowerRating(for station: ChargingStation) -> Int {
+        var maxPower = 0
+        for connector in station.connectorTypes {
+            switch connector {
+            case .ccs: maxPower = max(maxPower, 350)
+            case .tesla: maxPower = max(maxPower, 250)
+            case .chademo: maxPower = max(maxPower, 100)
+            case .type2: maxPower = max(maxPower, 22)
+            case .j1772: maxPower = max(maxPower, 19)
+            }
+        }
+        return maxPower
+    }
+    
+    /// Lower rank = better availability
+    private func availabilityRank(_ status: StatusType?) -> Int {
+        switch status {
+        case .available: return 0
+        case .unknown, .none: return 1
+        case .occupied: return 2
+        case .outOfService: return 3
         }
     }
     

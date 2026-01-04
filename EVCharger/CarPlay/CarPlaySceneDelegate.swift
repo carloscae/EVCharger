@@ -116,7 +116,7 @@ class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelegate {
         // Build connector string
         let connectorText = station.connectorTypes
             .prefix(2)
-            .map(\.shortName)
+            .map(\.displayName)
             .joined(separator: ", ")
         
         // Build distance string

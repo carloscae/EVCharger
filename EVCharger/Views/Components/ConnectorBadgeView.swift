@@ -54,7 +54,7 @@ struct ConnectorBadgeView: View {
             Image(systemName: connector.iconName)
                 .font(size.iconFont)
             
-            Text(connector.shortName)
+            Text(connector.displayName)
                 .font(size.labelFont)
         }
         .padding(.horizontal, size.horizontalPadding)

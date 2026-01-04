@@ -78,7 +78,7 @@ extension UserPreferences {
         if preferredConnectors.isEmpty {
             return "All connectors"
         } else {
-            return preferredConnectors.map(\.shortName).joined(separator: ", ")
+            return preferredConnectors.map(\.displayName).joined(separator: ", ")
         }
     }
 }

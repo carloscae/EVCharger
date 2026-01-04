@@ -112,7 +112,7 @@ extension ChargingStation {
     
     /// Comma-separated list of connector types for display
     var connectorSummary: String {
-        connectorTypes.map(\.shortName).joined(separator: ", ")
+        connectorTypes.map(\.displayName).joined(separator: ", ")
     }
     
     /// Whether the cache is stale (older than 24 hours)

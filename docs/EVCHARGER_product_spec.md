@@ -70,6 +70,7 @@ Unlike ABRP ($50/year subscription) or network-specific apps (ChargePoint, Elect
 | iPhone Map View | P0 | Full map with charger pins |
 | iPhone List View | P0 | Searchable/filterable charger list |
 | iPhone Detail View | P0 | Charger info with navigate button |
+| **Route Planner** | P0 | Plan trips with charging stops (MapKit) |
 | Settings | P1 | Connector preferences, cache management |
 
 ### Post-Launch Features
@@ -86,7 +87,6 @@ Unlike ABRP ($50/year subscription) or network-specific apps (ChargePoint, Elect
 
 | Feature | Reason |
 |---------|--------|
-| Route Planning | Competes with ABRP — scope creep |
 | Payment Integration | Requires backend — platform complexity |
 | Charger Network Accounts | Platform complexity |
 | User Reviews/Ratings | Requires backend |

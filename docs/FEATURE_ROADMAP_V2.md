@@ -9,7 +9,9 @@
 | 7 | Vehicle Settings, Route Planner Core |
 | 8 | Smart Features, Route Overlay |
 | 9 | CarPlay Routes |
-| 10 | **Release Prep** |
+| 10 | **Stabilization & Widgets** |
+| 11 | Route Planner Redesign |
+| 12 | **Release Prep** |
 
 ---
 
@@ -42,7 +44,16 @@
 - [ ] CarPlay route view
 - [ ] Segment navigation
 
-### Sprint 10: Release Prep
+### Sprint 10: Stabilization & Widgets
+- [ ] Widget Extension (Sprint 6 Debt)
+- [ ] Localization Foundation
+- [ ] Bug Fixes & Hardening
+
+### Sprint 11: Route Planner Redesign
+- [ ] Redesign UX based on feedback
+- [ ] Advanced Smart Features (from S8)
+
+### Sprint 12: Release Prep
 - [ ] App Icons
 - [ ] App Store Screenshots
 - [ ] Metadata & Keywords

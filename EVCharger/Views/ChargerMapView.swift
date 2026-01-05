@@ -17,7 +17,7 @@ struct ChargerMapView: View {
     @State private var cameraPosition: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var showingSettings = false
     @State private var selectedStation: ChargingStation?
-    @State private var sheetDetent: PresentationDetent = .height(140)
+    @State private var sheetDetent: PresentationDetent = .height(80)
     
     var body: some View {
         Map(position: $cameraPosition, selection: $selectedStation) {
@@ -54,13 +54,18 @@ struct ChargerMapView: View {
                 selectedStation: $selectedStation,
                 showingSettings: $showingSettings
             )
-            .presentationDetents([.height(120), .medium, .large], selection: $sheetDetent)
+            .presentationDetents([.height(80), .medium, .large], selection: $sheetDetent)
             .presentationDragIndicator(.visible)
             .presentationBackgroundInteraction(.enabled(upThrough: .medium))
             .interactiveDismissDisabled()
         }
         .task {
             await viewModel.fetchNearbyChargers()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .connectorPreferencesDidChange)) { _ in
+            Task {
+                await viewModel.fetchNearbyChargers()
+            }
         }
     }
     
@@ -77,45 +82,15 @@ struct ChargerSheetContent: View {
     @Bindable var viewModel: ChargersViewModel
     @Binding var selectedStation: ChargingStation?
     @Binding var showingSettings: Bool
-    @State private var showingRoutePlanner = false
-    @State private var showingFavoritesList = false
-    @State private var showingRecentsList = false
-    
-    @Query(sort: \FavoriteStation.favoritedAt, order: .reverse) 
-    private var favoriteStations: [FavoriteStation]
-    
-    @Query(sort: \RecentStation.viewedAt, order: .reverse)
-    private var recentStations: [RecentStation]
-    
-    @Query
-    private var cachedStations: [ChargingStation]
-    
-    /// All available stations - prefer live data, fallback to cache
-    private var allStations: [ChargingStation] {
-        viewModel.stations.isEmpty ? cachedStations : viewModel.stations
-    }
-    
-    /// Favorite stations matched with actual station data
-    private var favorites: [ChargingStation] {
-        let favoriteIds = Set(favoriteStations.map(\.stationId))
-        return allStations.filter { favoriteIds.contains($0.id) }
-    }
-    
-    /// Recent stations matched with actual station data (excluding favorites)
-    private var recents: [ChargingStation] {
-        let favoriteIds = Set(favoriteStations.map(\.stationId))
-        let recentIds = recentStations.prefix(5).map(\.stationId)
-        return recentIds.compactMap { id in
-            allStations.first { $0.id == id && !favoriteIds.contains($0.id) }
-        }
-    }
+
     
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 0) {
-                // Compact header (always visible)
-                VStack(spacing: 20) {
-                    HStack {
+        VStack(spacing: 0) {
+            // Compact header (always visible) - taps to open Settings
+            Button {
+                showingSettings = true
+            } label: {
+                VStack(alignment: .leading, spacing: 2) {
                         // Dynamic title
                         Group {
                             if viewModel.isLoading {
@@ -132,86 +107,50 @@ struct ChargerSheetContent: View {
                         }
                         .font(.title2.bold())
                         .contentTransition(.numericText())
-                        
-                        Spacer()
-                        
-                        // Route Planner button
-                        Button { showingRoutePlanner = true } label: {
-                            Image(systemName: "map.fill")
-                                .font(.title2)
-                                .foregroundStyle(.blue)
-                        }
-                        
-                        Button { showingSettings = true } label: {
-                            Image(systemName: "gearshape.fill")
-                                .font(.title2)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                    
-                    // Filter chips
-                    ConnectorFilterView(selectedConnector: $viewModel.selectedConnector)
-                }
-                .padding(.horizontal)
-                .padding(.top, 24)
-                .padding(.bottom, 16)
-                
-                // Favorites & Recents (eager loaded - visible immediately)
-                if !favorites.isEmpty {
-                    StationChipsSection(
-                        title: "Favorites",
-                        icon: "star.fill",
-                        stations: favorites,
-                        userLocation: viewModel.currentUserLocation,
-                        onSelect: { station in
-                            selectedStation = station
-                        },
-                        onSeeAll: {
-                            showingFavoritesList = true
-                        }
-                    )
-                    .padding(.bottom, 18)
-                }
-                
-                if !recents.isEmpty {
-                    StationChipsSection(
-                        title: "Recent",
-                        icon: "clock",
-                        stations: recents,
-                        userLocation: viewModel.currentUserLocation,
-                        onSelect: { station in
-                            selectedStation = station
-                        },
-                        onSeeAll: {
-                            showingRecentsList = true
-                        }
-                    )
-                    .padding(.bottom, 18)
-                }
-                
-                // Main station list (lazy loaded - efficient for 200+ stations)
-                List {
-                    ForEach(viewModel.stations, id: \.id) { station in
-                        Button {
-                            selectedStation = station
-                        } label: {
-                            ChargerRowView(
-                                station: station,
-                                userLocation: viewModel.currentUserLocation
-                            )
-                        }
-                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                         .foregroundStyle(.primary)
+                        
+                    
+                    // Subtitle with filter info
+                    let preferred = viewModel.preferredConnectors
+                    HStack(spacing: 4) {
+                        if preferred.isEmpty {
+                            Text("Showing: All types")
+                        } else {
+                            Text("Showing: \(preferred.map(\.displayName).joined(separator: ", "))")
+                        }
+                        Image(systemName: "chevron.right")
+                            .font(.caption2)
                     }
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
                 }
-                .listStyle(.plain)
+                .contentShape(Rectangle())
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .buttonStyle(.plain)
+            .padding(.horizontal)
+            .padding(.top, 16)
+            .padding(.bottom, 12)
+            
+            // Main station list (lazy loaded - efficient for 200+ stations)
+            List {
+                ForEach(viewModel.stations, id: \.id) { station in
+                    Button {
+                        selectedStation = station
+                    } label: {
+                        ChargerRowView(
+                            station: station,
+                            userLocation: viewModel.currentUserLocation
+                        )
+                    }
+                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                    .foregroundStyle(.primary)
+                }
+            }
+            .listStyle(.plain)
         }
-        .sheet(isPresented: $showingSettings) {
+        .fullScreenCover(isPresented: $showingSettings) {
             SettingsView()
-        }
-        .sheet(isPresented: $showingRoutePlanner) {
-            RoutePlannerView()
         }
         .sheet(item: $selectedStation) { station in
             ChargerDetailView(
@@ -220,26 +159,6 @@ struct ChargerSheetContent: View {
             )
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
-        }
-        .sheet(isPresented: $showingFavoritesList) {
-            StationListView(
-                title: "Favorites",
-                stations: favorites,
-                userLocation: viewModel.currentUserLocation
-            ) { station in
-                showingFavoritesList = false
-                selectedStation = station
-            }
-        }
-        .sheet(isPresented: $showingRecentsList) {
-            StationListView(
-                title: "Recent",
-                stations: recents,
-                userLocation: viewModel.currentUserLocation
-            ) { station in
-                showingRecentsList = false
-                selectedStation = station
-            }
         }
     }
 }

@@ -55,3 +55,50 @@ enum ConnectorType: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+// MARK: - Connection Info (Detailed connector data from API)
+
+/// Represents a specific charging connection point with power and status details.
+/// Maps to OpenChargeMap's "Connections" array.
+struct ConnectionInfo: Codable, Identifiable, Hashable {
+    var id: Int
+    var connectorType: ConnectorType
+    var powerKW: Double?
+    var quantity: Int
+    var levelID: Int?  // 1=Level 1, 2=Level 2, 3=Level 3 DC
+    var statusID: Int?
+    
+    /// Formatted power string (e.g., "50 kW" or "22 kW")
+    var formattedPower: String? {
+        guard let power = powerKW, power > 0 else { return nil }
+        if power == floor(power) {
+            return "\(Int(power)) kW"
+        }
+        return String(format: "%.1f kW", power)
+    }
+    
+    /// AC or DC label based on level
+    var currentType: String? {
+        guard let level = levelID else { return nil }
+        switch level {
+        case 1, 2: return "AC"
+        case 3: return "DC"
+        default: return nil
+        }
+    }
+    
+    /// Operational status text
+    var statusText: String {
+        guard let status = statusID else { return "Unknown" }
+        switch status {
+        case 50: return "Operational"
+        case 30, 75: return "Partly Operational"
+        case 100, 150, 200: return "Out of Service"
+        default: return "Unknown"
+        }
+    }
+    
+    /// Whether connector is operational
+    var isOperational: Bool {
+        statusID == 50
+    }
+}

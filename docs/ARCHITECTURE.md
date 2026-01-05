@@ -48,7 +48,8 @@ EVCharger/
 │   │
 │   ├── ViewModels/                 # State management
 │   │   ├── ChargersViewModel.swift      # Main data flow
-│   │   └── SettingsViewModel.swift      # Preferences
+│   │   ├── SettingsViewModel.swift      # Preferences
+│   │   └── RoutePlannerViewModel.swift  # Route planning & autocomplete
 │   │
 │   └── Views/                      # SwiftUI views
 │       ├── SettingsView.swift           # Settings screen

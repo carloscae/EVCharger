@@ -131,7 +131,7 @@ actor OpenChargeMapService {
         
         // Add connector type filter if specified
         if let connectorTypes, !connectorTypes.isEmpty {
-            let connectionTypeIds = connectorTypes.compactMap { $0.ocmConnectionTypeId }
+            let connectionTypeIds = connectorTypes.flatMap { $0.ocmConnectionTypeIds }
             if !connectionTypeIds.isEmpty {
                 queryItems.append(URLQueryItem(
                     name: "connectiontypeid",
@@ -204,16 +204,28 @@ struct OCMPoi: Decodable {
     func toChargingStation() -> ChargingStation? {
         guard let address = AddressInfo else { return nil }
         
-        // Parse connector types from connections
-        let connectors = (Connections ?? []).compactMap { connection -> ConnectorType? in
-            guard let typeId = connection.ConnectionTypeID else { return nil }
-            return ConnectorType.fromOCMConnectionTypeId(typeId)
-        }
+        // Parse full connection details
+        var connectionInfos: [ConnectionInfo] = []
+        var uniqueConnectorTypes: [ConnectorType] = []
         
-        // Remove duplicates while preserving order
-        let uniqueConnectors = connectors.reduce(into: [ConnectorType]()) { result, connector in
-            if !result.contains(connector) {
-                result.append(connector)
+        for connection in (Connections ?? []) {
+            guard let typeId = connection.ConnectionTypeID,
+                  let connectorType = ConnectorType.fromOCMConnectionTypeId(typeId),
+                  let connectionId = connection.ID else { continue }
+            
+            let info = ConnectionInfo(
+                id: connectionId,
+                connectorType: connectorType,
+                powerKW: connection.PowerKW,
+                quantity: connection.Quantity ?? 1,
+                levelID: connection.LevelID,
+                statusID: connection.StatusTypeID
+            )
+            connectionInfos.append(info)
+            
+            // Track unique connector types
+            if !uniqueConnectorTypes.contains(connectorType) {
+                uniqueConnectorTypes.append(connectorType)
             }
         }
         
@@ -257,7 +269,8 @@ struct OCMPoi: Decodable {
             address: address.formattedAddress,
             latitude: address.Latitude ?? 0,
             longitude: address.Longitude ?? 0,
-            connectorTypes: uniqueConnectors.isEmpty ? [.ccs] : uniqueConnectors,
+            connectorTypes: uniqueConnectorTypes.isEmpty ? [.ccs] : uniqueConnectorTypes,
+            connections: connectionInfos,
             numberOfPoints: NumberOfPoints ?? 1,
             statusType: status,
             usageCost: UsageCost,
@@ -310,25 +323,32 @@ struct OCMStatusType: Decodable {
 // MARK: - ConnectorType OCM Mapping Extension
 
 extension ConnectorType {
-    /// Open Charge Map connection type ID for this connector
-    var ocmConnectionTypeId: Int? {
+    /// Open Charge Map connection type IDs for this connector (for API query filter)
+    /// Returns all relevant IDs to ensure complete results
+    /// Reference: https://openchargemap.org/site/develop/api
+    var ocmConnectionTypeIds: [Int] {
         switch self {
-        case .ccs: return 33      // CCS (Type 1) or 32 for CCS (Type 2)
-        case .chademo: return 2   // CHAdeMO
-        case .tesla: return 30    // Tesla Supercharger (or 27 for Tesla Model S)
-        case .j1772: return 1     // J1772
-        case .type2: return 25    // Type 2 (Mennekes)
+        case .ccs: return [32, 33]              // 32=CCS (Type 1), 33=CCS (Type 2)
+        case .chademo: return [2]               // 2=CHAdeMO
+        case .tesla: return [8, 27, 30, 31]     // 8=Tesla Roadster, 27=Tesla Model S, 30=Tesla Supercharger, 31=Tesla (generic)
+        case .j1772: return [1, 6]              // 1=J1772 (Type 1), 6=SAE Combo J1772
+        case .type2: return [25, 1036]          // 25=Type 2 (Socket Only), 1036=Type 2 (Tethered)
         }
+    }
+    
+    /// Primary Open Charge Map connection type ID (for backwards compatibility)
+    var ocmConnectionTypeId: Int? {
+        ocmConnectionTypeIds.first
     }
     
     /// Create ConnectorType from Open Charge Map connection type ID
     static func fromOCMConnectionTypeId(_ id: Int) -> ConnectorType? {
         switch id {
-        case 1: return .j1772
+        case 1, 6: return .j1772               // J1772 variants
         case 2: return .chademo
-        case 25: return .type2
-        case 27, 30, 8: return .tesla  // Tesla variants
-        case 32, 33: return .ccs       // CCS Type 1 & 2
+        case 25, 1036: return .type2           // Type 2 variants
+        case 8, 27, 30, 31: return .tesla      // All Tesla variants
+        case 32, 33: return .ccs               // CCS Type 1 & 2
         default: return nil
         }
     }

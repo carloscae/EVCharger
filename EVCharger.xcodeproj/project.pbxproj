@@ -11,41 +11,22 @@
 		BF002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR002 /* ContentView.swift */; };
 		BF003 /* CarPlaySceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR003 /* CarPlaySceneDelegate.swift */; };
 		BF004 /* APIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR004 /* APIConfig.swift */; };
-		BF005 /* EVChargerShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR005 /* EVChargerShortcuts.swift */; };
-		BF006 /* FindChargerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR006 /* FindChargerIntent.swift */; };
 		BF007 /* ChargingStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR007 /* ChargingStation.swift */; };
 		BF008 /* ConnectorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR008 /* ConnectorType.swift */; };
-		BF009 /* EVVehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR009 /* EVVehicle.swift */; };
-		BF010 /* FavoriteStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR010 /* FavoriteStation.swift */; };
-		BF011 /* RecentStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR011 /* RecentStation.swift */; };
 		BF012 /* StatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR012 /* StatusType.swift */; };
-		BF013 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR013 /* UserPreferences.swift */; };
-		BF014 /* AmenityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR014 /* AmenityService.swift */; };
 		BF015 /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR015 /* CacheService.swift */; };
-		BF016 /* EVDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR016 /* EVDatabase.swift */; };
 		BF017 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR017 /* LocationService.swift */; };
 		BF018 /* NavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR018 /* NavigationService.swift */; };
 		BF019 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR019 /* NetworkMonitor.swift */; };
 		BF020 /* OpenChargeMapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR020 /* OpenChargeMapService.swift */; };
-		BF021 /* RoutePlannerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR021 /* RoutePlannerService.swift */; };
-		BF022 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR022 /* StoreManager.swift */; };
 		BF023 /* ChargersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR023 /* ChargersViewModel.swift */; };
-		BF024 /* ActiveRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR024 /* ActiveRouteView.swift */; };
 		BF025 /* ChargerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR025 /* ChargerDetailView.swift */; };
-		BF026 /* ChargerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR026 /* ChargerListView.swift */; };
 		BF027 /* ChargerMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR027 /* ChargerMapView.swift */; };
 		BF028 /* CacheStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR028 /* CacheStatusView.swift */; };
 		BF029 /* ChargerRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR029 /* ChargerRowView.swift */; };
 		BF030 /* ConnectorBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR030 /* ConnectorBadgeView.swift */; };
-		BF031 /* ConnectorFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR031 /* ConnectorFilterView.swift */; };
-		BF032 /* TrialBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR032 /* TrialBannerView.swift */; };
-		BF033 /* RoutePlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR033 /* RoutePlannerView.swift */; };
 		BF034 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR034 /* SettingsView.swift */; };
-		BF035 /* VehiclePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR035 /* VehiclePickerView.swift */; };
-		BF036 /* ev-data.json in Resources */ = {isa = PBXBuildFile; fileRef = FR036 /* ev-data.json */; };
 		BF037 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FR037 /* Assets.xcassets */; };
-		BF038 /* StationChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR038 /* StationChipView.swift */; };
-		BF039 /* StationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR039 /* StationListView.swift */; };
 		BFTEST /* OpenChargeMapServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FRTEST /* OpenChargeMapServiceTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,40 +45,21 @@
 		FR002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FR003 /* CarPlaySceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlaySceneDelegate.swift; sourceTree = "<group>"; };
 		FR004 /* APIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfig.swift; sourceTree = "<group>"; };
-		FR005 /* EVChargerShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVChargerShortcuts.swift; sourceTree = "<group>"; };
-		FR006 /* FindChargerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindChargerIntent.swift; sourceTree = "<group>"; };
 		FR007 /* ChargingStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargingStation.swift; sourceTree = "<group>"; };
 		FR008 /* ConnectorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectorType.swift; sourceTree = "<group>"; };
-		FR009 /* EVVehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVVehicle.swift; sourceTree = "<group>"; };
-		FR010 /* FavoriteStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStation.swift; sourceTree = "<group>"; };
-		FR011 /* RecentStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentStation.swift; sourceTree = "<group>"; };
 		FR012 /* StatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusType.swift; sourceTree = "<group>"; };
-		FR013 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
-		FR014 /* AmenityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmenityService.swift; sourceTree = "<group>"; };
 		FR015 /* CacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
-		FR016 /* EVDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVDatabase.swift; sourceTree = "<group>"; };
 		FR017 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		FR018 /* NavigationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationService.swift; sourceTree = "<group>"; };
 		FR019 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		FR020 /* OpenChargeMapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChargeMapService.swift; sourceTree = "<group>"; };
-		FR021 /* RoutePlannerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePlannerService.swift; sourceTree = "<group>"; };
-		FR022 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		FR023 /* ChargersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargersViewModel.swift; sourceTree = "<group>"; };
-		FR024 /* ActiveRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveRouteView.swift; sourceTree = "<group>"; };
 		FR025 /* ChargerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerDetailView.swift; sourceTree = "<group>"; };
-		FR026 /* ChargerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerListView.swift; sourceTree = "<group>"; };
 		FR027 /* ChargerMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerMapView.swift; sourceTree = "<group>"; };
 		FR028 /* CacheStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheStatusView.swift; sourceTree = "<group>"; };
 		FR029 /* ChargerRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerRowView.swift; sourceTree = "<group>"; };
 		FR030 /* ConnectorBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectorBadgeView.swift; sourceTree = "<group>"; };
-		FR031 /* ConnectorFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectorFilterView.swift; sourceTree = "<group>"; };
-		FR032 /* TrialBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrialBannerView.swift; sourceTree = "<group>"; };
-		FR038 /* StationChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationChipView.swift; sourceTree = "<group>"; };
-		FR033 /* RoutePlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePlannerView.swift; sourceTree = "<group>"; };
 		FR034 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		FR035 /* VehiclePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclePickerView.swift; sourceTree = "<group>"; };
-		FR039 /* StationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationListView.swift; sourceTree = "<group>"; };
-		FR036 /* ev-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ev-data.json"; sourceTree = "<group>"; };
 		FR037 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		InfoPlist /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EVChargerProduct /* EVCharger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EVCharger.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,7 +109,6 @@
 				AppGroup /* App */,
 				CarPlayGroup /* CarPlay */,
 				ConfigGroup /* Config */,
-				IntentsGroup /* Intents */,
 				ModelsGroup /* Models */,
 				ServicesGroup /* Services */,
 				ViewModelsGroup /* ViewModels */,
@@ -184,25 +145,12 @@
 			path = Config;
 			sourceTree = "<group>";
 		};
-		IntentsGroup /* Intents */ = {
-			isa = PBXGroup;
-			children = (
-				FR005 /* EVChargerShortcuts.swift */,
-				FR006 /* FindChargerIntent.swift */,
-			);
-			path = Intents;
-			sourceTree = "<group>";
-		};
-		ModelsGroup /* Models */ = {
+			ModelsGroup /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				FR007 /* ChargingStation.swift */,
 				FR008 /* ConnectorType.swift */,
-				FR009 /* EVVehicle.swift */,
-				FR010 /* FavoriteStation.swift */,
-				FR011 /* RecentStation.swift */,
 				FR012 /* StatusType.swift */,
-				FR013 /* UserPreferences.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -210,15 +158,11 @@
 		ServicesGroup /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				FR014 /* AmenityService.swift */,
 				FR015 /* CacheService.swift */,
-				FR016 /* EVDatabase.swift */,
 				FR017 /* LocationService.swift */,
 				FR018 /* NavigationService.swift */,
 				FR019 /* NetworkMonitor.swift */,
 				FR020 /* OpenChargeMapService.swift */,
-				FR021 /* RoutePlannerService.swift */,
-				FR022 /* StoreManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -235,14 +179,9 @@
 			isa = PBXGroup;
 			children = (
 				ComponentsGroup /* Components */,
-				FR024 /* ActiveRouteView.swift */,
 				FR025 /* ChargerDetailView.swift */,
-				FR026 /* ChargerListView.swift */,
 				FR027 /* ChargerMapView.swift */,
-				FR033 /* RoutePlannerView.swift */,
 				FR034 /* SettingsView.swift */,
-				FR035 /* VehiclePickerView.swift */,
-				FR039 /* StationListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -253,9 +192,6 @@
 				FR028 /* CacheStatusView.swift */,
 				FR029 /* ChargerRowView.swift */,
 				FR030 /* ConnectorBadgeView.swift */,
-				FR031 /* ConnectorFilterView.swift */,
-				FR032 /* TrialBannerView.swift */,
-				FR038 /* StationChipView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -263,7 +199,6 @@
 		ResourcesGroup /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FR036 /* ev-data.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -357,7 +292,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF036 /* ev-data.json in Resources */,
 				BF037 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,39 +314,21 @@
 				BF002 /* ContentView.swift in Sources */,
 				BF003 /* CarPlaySceneDelegate.swift in Sources */,
 				BF004 /* APIConfig.swift in Sources */,
-				BF005 /* EVChargerShortcuts.swift in Sources */,
-				BF006 /* FindChargerIntent.swift in Sources */,
 				BF007 /* ChargingStation.swift in Sources */,
 				BF008 /* ConnectorType.swift in Sources */,
-				BF009 /* EVVehicle.swift in Sources */,
-				BF010 /* FavoriteStation.swift in Sources */,
-				BF011 /* RecentStation.swift in Sources */,
 				BF012 /* StatusType.swift in Sources */,
-				BF013 /* UserPreferences.swift in Sources */,
-				BF014 /* AmenityService.swift in Sources */,
 				BF015 /* CacheService.swift in Sources */,
-				BF016 /* EVDatabase.swift in Sources */,
 				BF017 /* LocationService.swift in Sources */,
 				BF018 /* NavigationService.swift in Sources */,
 				BF019 /* NetworkMonitor.swift in Sources */,
 				BF020 /* OpenChargeMapService.swift in Sources */,
-				BF021 /* RoutePlannerService.swift in Sources */,
-				BF022 /* StoreManager.swift in Sources */,
 				BF023 /* ChargersViewModel.swift in Sources */,
-				BF024 /* ActiveRouteView.swift in Sources */,
 				BF025 /* ChargerDetailView.swift in Sources */,
-				BF026 /* ChargerListView.swift in Sources */,
 				BF027 /* ChargerMapView.swift in Sources */,
 				BF028 /* CacheStatusView.swift in Sources */,
 				BF029 /* ChargerRowView.swift in Sources */,
 				BF030 /* ConnectorBadgeView.swift in Sources */,
-				BF031 /* ConnectorFilterView.swift in Sources */,
-				BF032 /* TrialBannerView.swift in Sources */,
-				BF033 /* RoutePlannerView.swift in Sources */,
 				BF034 /* SettingsView.swift in Sources */,
-				BF035 /* VehiclePickerView.swift in Sources */,
-				BF038 /* StationChipView.swift in Sources */,
-				BF039 /* StationListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,9 +23,6 @@ class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelegate {
     /// Root list template for nearby chargers
     private var nearbyChargersTemplate: CPListTemplate?
     
-    /// Currently selected connector filter
-    private var selectedConnectorFilter: ConnectorType?
-    
     // MARK: - CPTemplateApplicationSceneDelegate
     
     func templateApplicationScene(
@@ -50,7 +47,7 @@ class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelegate {
         }
     }
     
-    func templateApplicationScene(
+    @nonobjc func templateApplicationScene(
         _ templateApplicationScene: CPTemplateApplicationScene,
         didDisconnect interfaceController: CPInterfaceController
     ) {
@@ -77,12 +74,6 @@ class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelegate {
         )
         template.emptyViewTitleVariants = ["No Chargers Found"]
         template.emptyViewSubtitleVariants = ["Try moving to a different location"]
-        
-        // Add filter button
-        let filterButton = CPBarButton(title: "Filter") { [weak self] _ in
-            self?.showConnectorFilter()
-        }
-        template.trailingNavigationBarButtons = [filterButton]
         
         return template
     }
@@ -201,206 +192,6 @@ class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelegate {
             layout: .leading,
             items: items,
             actions: [navigateButton]
-        )
-        
-        interfaceController.pushTemplate(template, animated: true, completion: nil)
-    }
-    
-    // MARK: - Connector Filter
-    
-    private func showConnectorFilter() {
-        guard let interfaceController else { return }
-        
-        // Build filter options
-        var items: [CPListItem] = []
-        
-        // All option
-        let allItem = CPListItem(
-            text: "All Connectors",
-            detailText: "Show all charger types",
-            image: UIImage(systemName: "bolt.fill")
-        )
-        allItem.accessoryType = selectedConnectorFilter == nil ? .cloud : .none
-        allItem.handler = { [weak self] _, completion in
-            self?.applyConnectorFilter(nil)
-            completion()
-        }
-        items.append(allItem)
-        
-        // Individual connector types
-        for connector in ConnectorType.allCases {
-            let item = CPListItem(
-                text: connector.displayName,
-                detailText: nil,
-                image: UIImage(systemName: connector.sfSymbol)
-            )
-            item.accessoryType = selectedConnectorFilter == connector ? .cloud : .none
-            item.handler = { [weak self] _, completion in
-                self?.applyConnectorFilter(connector)
-                completion()
-            }
-            items.append(item)
-        }
-        
-        let section = CPListSection(items: items)
-        let filterTemplate = CPListTemplate(
-            title: "Filter by Connector",
-            sections: [section]
-        )
-        
-        interfaceController.pushTemplate(filterTemplate, animated: true, completion: nil)
-    }
-    
-    private func applyConnectorFilter(_ connector: ConnectorType?) {
-        selectedConnectorFilter = connector
-        viewModel.selectedConnector = connector
-        
-        // Pop back to list
-        interfaceController?.popTemplate(animated: true, completion: nil)
-        
-        // Update list
-        Task { @MainActor in
-            updateChargersList()
-        }
-    }
-    
-    // MARK: - Route Planning
-    
-    /// Currently active route
-    private var activeRoute: PlannedRoute?
-    private var currentStopIndex: Int = 0
-    
-    /// Show route status template for active route
-    func showRouteStatus(route: PlannedRoute) {
-        guard let interfaceController else { return }
-        
-        self.activeRoute = route
-        self.currentStopIndex = 0
-        
-        let template = createRouteStatusTemplate(route: route)
-        interfaceController.pushTemplate(template, animated: true, completion: nil)
-    }
-    
-    private func createRouteStatusTemplate(route: PlannedRoute) -> CPInformationTemplate {
-        var items: [CPInformationItem] = []
-        
-        // Destination
-        items.append(CPInformationItem(
-            title: "Destination",
-            detail: route.destinationName
-        ))
-        
-        // Distance
-        items.append(CPInformationItem(
-            title: "Distance",
-            detail: "\(Int(route.totalDistanceKm)) km"
-        ))
-        
-        // Total time
-        let hours = route.totalTimeMinutes / 60
-        let mins = route.totalTimeMinutes % 60
-        let timeStr = hours > 0 ? "\(hours)h \(mins)m" : "\(mins) min"
-        items.append(CPInformationItem(
-            title: "Total Time",
-            detail: timeStr
-        ))
-        
-        // Charging stops
-        items.append(CPInformationItem(
-            title: "Charging Stops",
-            detail: route.stops.isEmpty ? "None needed" : "\(route.stops.count) stops"
-        ))
-        
-        var actions: [CPTextButton] = []
-        
-        // Navigate to next stop
-        if let nextStop = route.stops.first {
-            let navigateButton = CPTextButton(
-                title: "Navigate to First Stop",
-                textStyle: .confirm
-            ) { [weak self] _ in
-                NavigationService.navigateToStation(nextStop.station)
-                self?.showNextStopTemplate(stop: nextStop, index: 0)
-            }
-            actions.append(navigateButton)
-        } else {
-            // No stops - navigate to destination
-            let navigateButton = CPTextButton(
-                title: "Start Navigation",
-                textStyle: .confirm
-            ) { _ in
-                // Open Maps to destination
-                let coordinate = route.destination
-                let placemark = MKPlacemark(coordinate: coordinate)
-                let mapItem = MKMapItem(placemark: placemark)
-                mapItem.name = route.destinationName
-                mapItem.openInMaps(launchOptions: [
-                    MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
-                ])
-            }
-            actions.append(navigateButton)
-        }
-        
-        return CPInformationTemplate(
-            title: "Route to \(route.destinationName)",
-            layout: .leading,
-            items: items,
-            actions: actions
-        )
-    }
-    
-    private func showNextStopTemplate(stop: ChargingStop, index: Int) {
-        guard let interfaceController else { return }
-        
-        var items: [CPInformationItem] = []
-        
-        items.append(CPInformationItem(
-            title: "Stop \(index + 1)",
-            detail: stop.station.name
-        ))
-        
-        items.append(CPInformationItem(
-            title: "Distance",
-            detail: "\(Int(stop.distanceFromStartKm)) km from start"
-        ))
-        
-        items.append(CPInformationItem(
-            title: "Arrival Charge",
-            detail: "\(stop.arrivalChargePercent)%"
-        ))
-        
-        items.append(CPInformationItem(
-            title: "Charging Time",
-            detail: "~\(stop.chargingTimeMinutes) min to 80%"
-        ))
-        
-        // Skip button
-        let skipButton = CPTextButton(
-            title: "Skip This Stop",
-            textStyle: .normal
-        ) { [weak self] _ in
-            guard let self = self, let route = self.activeRoute else { return }
-            self.currentStopIndex += 1
-            if self.currentStopIndex < route.stops.count {
-                let nextStop = route.stops[self.currentStopIndex]
-                NavigationService.navigateToStation(nextStop.station)
-            }
-            interfaceController.popTemplate(animated: true, completion: nil)
-        }
-        
-        // Navigate button
-        let navigateButton = CPTextButton(
-            title: "Navigate",
-            textStyle: .confirm
-        ) { _ in
-            NavigationService.navigateToStation(stop.station)
-        }
-        
-        let template = CPInformationTemplate(
-            title: "Next Stop",
-            layout: .leading,
-            items: items,
-            actions: [navigateButton, skipButton]
         )
         
         interfaceController.pushTemplate(template, animated: true, completion: nil)

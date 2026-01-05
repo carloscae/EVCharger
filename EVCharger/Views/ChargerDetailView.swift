@@ -18,61 +18,46 @@ struct ChargerDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var estimatedTravelTime: TimeInterval?
     @State private var isCalculatingETA = true
-    @State private var isFavorite = false
     
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                // Mini map header
-                Map(initialPosition: .region(stationRegion)) {
-                    Marker(station.name, coordinate: station.coordinate)
-                        .tint(.green)
-                }
-                .frame(height: 180)
-                .allowsHitTesting(false)
-                
                 VStack(alignment: .leading, spacing: 20) {
-                    // Header with title and navigation button
-                    HStack(alignment: .top, spacing: 16) {
-                        // Left: Station info
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(station.name)
-                                .font(.title2.bold())
-                            
-                            if let operatorName = station.operatorName {
-                                Label(operatorName, systemImage: "building.2")
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
-                            }
-                            
-                            Label(station.address, systemImage: "mappin.and.ellipse")
+                    // Station info
+                    VStack(alignment: .leading, spacing: 6) {
+                     HStack {
+                         Text(station.name)
+                             .font(.title2.bold())
+                         
+                         Spacer()
+                         
+                         // Status badge under address
+                         StatusBadge(status: station.statusType)
+                             .padding(.top, 4)
+                        }
+                        
+                      
+                        Text(station.address)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        
+                        if let operatorName = station.operatorName {
+                            Label(operatorName, systemImage: "building.2")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
-                            
-                            // Status badge under address
-                            StatusBadge(status: station.statusType)
-                                .padding(.top, 4)
                         }
                         
-                        Spacer()
+
                         
-                        // Favorite button
-                        Button {
-                            toggleFavorite()
-                        } label: {
-                            Image(systemName: isFavorite ? "star.fill" : "star")
-                                .font(.title2)
-                                .foregroundStyle(isFavorite ? .yellow : .secondary)
-                        }
-                        .buttonStyle(.plain)
-                        
-                        // Right: Navigation button (Apple Maps style)
-                        NavigationButton(
-                            travelTime: estimatedTravelTime,
-                            isLoading: isCalculatingETA
-                        ) {
-                            NavigationService.navigateToStation(station)
-                        }
+
+                    }
+                    
+                    // Full-width Drive button (Apple Maps style)
+                    DriveButton(
+                        travelTime: estimatedTravelTime,
+                        isLoading: isCalculatingETA
+                    ) {
+                        NavigationService.navigateToStation(station)
                     }
                     
                     Divider()
@@ -82,8 +67,16 @@ struct ChargerDetailView: View {
                         Text("Connectors")
                             .font(.headline)
                         
-                        ForEach(station.connectorTypes, id: \.self) { connector in
-                            ConnectorCardView(connector: connector)
+                        // Use detailed connection cards if available
+                        if !station.connections.isEmpty {
+                            ForEach(station.connections) { connection in
+                                ConnectionCardView(connection: connection)
+                            }
+                        } else {
+                            // Fallback to basic connector type cards
+                            ForEach(station.connectorTypes, id: \.self) { connector in
+                                ConnectorCardView(connector: connector)
+                            }
                         }
                     }
                     
@@ -112,14 +105,6 @@ struct ChargerDetailView: View {
         .navigationTitle("Station Details")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    toggleFavorite()
-                } label: {
-                    Image(systemName: isFavorite ? "star.fill" : "star")
-                        .foregroundStyle(isFavorite ? .yellow : .secondary)
-                }
-            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     dismiss()
@@ -132,87 +117,8 @@ struct ChargerDetailView: View {
         .task {
             await calculateETA()
         }
-        .onAppear {
-            checkIfFavorite()
-            trackRecentView()
-        }
     }
     
-    private var stationRegion: MKCoordinateRegion {
-        MKCoordinateRegion(
-            center: station.coordinate,
-            span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-        )
-    }
-    
-    private func checkIfFavorite() {
-        let stationId = station.id
-        let descriptor = FetchDescriptor<FavoriteStation>(
-            predicate: #Predicate { $0.stationId == stationId }
-        )
-        do {
-            let favorites = try modelContext.fetch(descriptor)
-            isFavorite = !favorites.isEmpty
-        } catch {
-            print("Failed to check favorite status: \(error)")
-        }
-    }
-    
-    private func toggleFavorite() {
-        let stationId = station.id
-        let descriptor = FetchDescriptor<FavoriteStation>(
-            predicate: #Predicate { $0.stationId == stationId }
-        )
-        
-        do {
-            let existing = try modelContext.fetch(descriptor)
-            if let favorite = existing.first {
-                // Remove from favorites
-                modelContext.delete(favorite)
-                isFavorite = false
-            } else {
-                // Add to favorites
-                let newFavorite = FavoriteStation(stationId: stationId)
-                modelContext.insert(newFavorite)
-                isFavorite = true
-            }
-            try modelContext.save()
-        } catch {
-            print("Failed to toggle favorite: \(error)")
-        }
-    }
-    
-    private func trackRecentView() {
-        let stationId = station.id
-        let descriptor = FetchDescriptor<RecentStation>(
-            predicate: #Predicate { $0.stationId == stationId }
-        )
-        
-        do {
-            // Update existing or create new
-            let existing = try modelContext.fetch(descriptor)
-            if let recent = existing.first {
-                recent.viewedAt = Date()
-            } else {
-                let newRecent = RecentStation(stationId: stationId)
-                modelContext.insert(newRecent)
-            }
-            
-            // Prune to last 10
-            let allRecents = try modelContext.fetch(FetchDescriptor<RecentStation>(
-                sortBy: [SortDescriptor(\.viewedAt, order: .reverse)]
-            ))
-            if allRecents.count > 10 {
-                for recent in allRecents.dropFirst(10) {
-                    modelContext.delete(recent)
-                }
-            }
-            
-            try modelContext.save()
-        } catch {
-            print("Failed to track recent view: \(error)")
-        }
-    }
     
     private func calculateETA() async {
         guard let userLocation else {
@@ -240,37 +146,39 @@ struct ChargerDetailView: View {
     }
 }
 
-// MARK: - Navigation Button (Apple Maps style)
+// MARK: - Drive Button (Full-width, Apple Maps style)
 
-struct NavigationButton: View {
+struct DriveButton: View {
     let travelTime: TimeInterval?
     let isLoading: Bool
     let action: () -> Void
     
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 6) {
-                // Blue circle with car icon
-                ZStack {
-                    Circle()
-                        .fill(Color.blue.gradient)
-                        .frame(width: 56, height: 56)
-                    
-                    Image(systemName: "car.fill")
-                        .font(.title2)
-                        .foregroundStyle(.white)
-                }
+            VStack(spacing: 4) {
+                Image(systemName: "car.fill")
+                    .font(.title2)
                 
                 // ETA label
                 if isLoading {
                     ProgressView()
                         .scaleEffect(0.7)
+                        .tint(.white)
                 } else if let time = travelTime {
                     Text(formatTravelTime(time))
-                        .font(.caption.weight(.medium))
-                        .foregroundStyle(.blue)
+                        .font(.subheadline.weight(.semibold))
+                } else {
+                    Text("Drive")
+                        .font(.subheadline.weight(.semibold))
                 }
             }
+            .foregroundStyle(.white)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 14)
+            .background(
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(Color.cyan.gradient)
+            )
         }
         .buttonStyle(.plain)
     }
@@ -278,14 +186,14 @@ struct NavigationButton: View {
     private func formatTravelTime(_ seconds: TimeInterval) -> String {
         let minutes = Int(seconds / 60)
         if minutes < 60 {
-            return "\(minutes) min"
+            return "\(minutes)m"
         } else {
             let hours = minutes / 60
             let remainingMinutes = minutes % 60
             if remainingMinutes == 0 {
-                return "\(hours) hr"
+                return "\(hours)h"
             }
-            return "\(hours) hr \(remainingMinutes) min"
+            return "\(hours)h \(remainingMinutes)m"
         }
     }
 }
@@ -329,12 +237,13 @@ struct DetailRow: View {
     let value: String
     
     var body: some View {
-        HStack {
+        HStack(alignment: .top) {
             Text(label)
                 .foregroundStyle(.secondary)
             Spacer()
             Text(value)
                 .fontWeight(.medium)
+                .multilineTextAlignment(.trailing)
         }
         .font(.subheadline)
     }

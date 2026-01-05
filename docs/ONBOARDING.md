@@ -12,12 +12,11 @@ Welcome to EVCharger! This doc gets you productive in 5 minutes.
 
 ## Non-Negotiables
 
-1. ❌ **No route planning** — we're not ABRP
-2. ❌ **No payments** — no backend complexity
-3. ❌ **No user accounts** — local storage only
-4. ❌ **No ads** — Apple prohibits in CarPlay
-5. ✅ **CarPlay-first** — iPhone is secondary
-6. ✅ **Swift-native only** — Objective-C code (`@objc`, NSObject, etc.) requires explicit user authorization
+1. ❌ **No payments** — no backend complexity
+2. ❌ **No user accounts** — local storage only
+3. ❌ **No ads** — Apple prohibits in CarPlay
+4. ✅ **CarPlay-first** — iPhone is secondary
+5. ✅ **Swift-native only** — Objective-C code (`@objc`, NSObject, etc.) requires explicit user authorization
 
 ---
 
@@ -25,12 +24,13 @@ Welcome to EVCharger! This doc gets you productive in 5 minutes.
 
 | What | Tech |
 |------|------|
-| Platform | iOS 16+ CarPlay |
+| Platform | iOS 17+ CarPlay |
 | Language | Swift 5.9+ |
 | iPhone UI | SwiftUI |
 | CarPlay UI | CPTemplates |
 | Data | SwiftData |
 | API | Open Charge Map (free) |
+| Maps | MapKit (Directions, Polylines) |
 
 ---
 
@@ -40,6 +40,8 @@ Welcome to EVCharger! This doc gets you productive in 5 minutes.
 ChargingStation  // Core model: id, name, address, connectors, location
 ConnectorType    // Enum: CCS, CHAdeMO, Tesla, J1772, Type2
 StatusType       // Enum: Available, Occupied, Unknown, OutOfService
+PlannedRoute     // Route with charging stops
+UserVehicle      // Vehicle settings for range calculation
 ```
 
 ---
@@ -49,9 +51,12 @@ StatusType       // Enum: Available, Occupied, Unknown, OutOfService
 ```
 CarPlay:
   NearbyList → ChargerDetail → Apple Maps
+  RouteStatus → NextStop → Apple Maps (multi-stop handoff)
 
 iPhone:
-  Settings (connector prefs, cache, premium)
+  Map → ChargerDetail → Navigate
+  RoutePlanner → MapPreview → Navigate (in-app + handoff)
+  Settings (connector prefs, vehicle, cache)
 ```
 
 ---
@@ -82,7 +87,7 @@ xcodebuild test -scheme EVCharger -destination 'platform=iOS Simulator,name=iPho
 ## Getting Started
 
 1. Read this doc ✓
-2. Check `docs/sprints/SPRINT_1.md` for current sprint
+2. Check `.agent/active/project_state.md` for current sprint
 3. Check `.agent/active/claims.md` before claiming a task
 4. Run `/onboard` workflow to claim your first task
 
@@ -92,4 +97,4 @@ xcodebuild test -scheme EVCharger -destination 'platform=iOS Simulator,name=iPho
 
 - **Full Spec:** `docs/EVCHARGER_product_spec.md`
 - **Architecture:** `docs/ARCHITECTURE.md`
-- **Active Sprint:** `docs/sprints/SPRINT_1.md`
+- **Active Sprint:** See `.agent/active/project_state.md`

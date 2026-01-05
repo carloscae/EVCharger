@@ -19,6 +19,16 @@ final class LocationService: NSObject {
     /// Current user location, nil if not yet determined or permissions denied
     private(set) var currentLocation: CLLocation?
     
+    /// Current heading (direction user is facing), nil if not tracking
+    private(set) var currentHeading: CLLocationDirection?
+    
+    /// Current speed in meters per second, nil if stationary or not available
+    var currentSpeed: CLLocationSpeed? {
+        guard let location = currentLocation,
+              location.speed >= 0 else { return nil }
+        return location.speed
+    }
+    
     /// Current authorization status
     private(set) var authorizationStatus: CLAuthorizationStatus = .notDetermined
     
@@ -30,8 +40,16 @@ final class LocationService: NSObject {
         authorizationStatus == .authorizedWhenInUse || authorizationStatus == .authorizedAlways
     }
     
+    /// Whether heading is available on this device
+    var isHeadingAvailable: Bool {
+        CLLocationManager.headingAvailable()
+    }
+    
     /// Whether we're actively updating location
     private(set) var isUpdating: Bool = false
+    
+    /// Whether we're actively tracking heading
+    private(set) var isTrackingHeading: Bool = false
     
     // MARK: - Private Properties
     
@@ -86,6 +104,21 @@ final class LocationService: NSObject {
         locationManager.stopUpdatingLocation()
     }
     
+    /// Start heading tracking for "Ahead of Me" filter.
+    func startHeadingUpdates() {
+        guard isLocationAvailable, isHeadingAvailable else { return }
+        isTrackingHeading = true
+        locationManager.headingFilter = 5 // Update every 5 degrees
+        locationManager.startUpdatingHeading()
+    }
+    
+    /// Stop heading tracking.
+    func stopHeadingUpdates() {
+        isTrackingHeading = false
+        currentHeading = nil
+        locationManager.stopUpdatingHeading()
+    }
+    
     /// Get current location with a one-shot async request.
     /// - Returns: The current location
     /// - Throws: LocationError if location cannot be determined
@@ -124,6 +157,13 @@ extension LocationService: CLLocationManagerDelegate {
         if let continuation = locationContinuation {
             self.locationContinuation = nil
             continuation.resume(returning: location)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        // Use trueHeading if available, otherwise magneticHeading
+        if newHeading.headingAccuracy >= 0 {
+            currentHeading = newHeading.trueHeading >= 0 ? newHeading.trueHeading : newHeading.magneticHeading
         }
     }
     

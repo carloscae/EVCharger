@@ -10,24 +10,15 @@ import CoreLocation
 import SwiftData
 import Combine
 
+// MARK: - Degree/Radian Conversion
+
+private extension Double {
+    var degreesToRadians: Double { self * .pi / 180 }
+    var radiansToDegrees: Double { self * 180 / .pi }
+}
+
 /// Main ViewModel for charger discovery.
 /// Integrates location and API services with offline-first caching.
-/// Sorting options for the charger list
-enum SortOption: String, CaseIterable, Identifiable {
-    case distance = "Distance"
-    case speed = "Speed"
-    case availability = "Availability"
-    
-    var id: String { rawValue }
-    
-    var icon: String {
-        switch self {
-        case .distance: return "location.fill"
-        case .speed: return "bolt.fill"
-        case .availability: return "checkmark.circle.fill"
-        }
-    }
-}
 
 @Observable
 @MainActor
@@ -38,14 +29,14 @@ final class ChargersViewModel {
     /// All fetched stations (filtered by selectedConnector if set)
     private(set) var stations: [ChargingStation] = []
     
-    /// Currently selected connector type filter (nil = show all)
-    var selectedConnector: ConnectorType? = nil {
-        didSet { applyFilter() }
+    /// Data for preferred connectors stored in AppStorage (same as SettingsView)
+    private var preferredConnectorsData: Data {
+        get { UserDefaults.standard.data(forKey: "preferredConnectors") ?? Data() }
     }
     
-    /// Currently selected sort option
-    var selectedSortOption: SortOption = .distance {
-        didSet { applyFilter() }
+    /// Set of preferred connector types
+    var preferredConnectors: Set<ConnectorType> {
+        (try? JSONDecoder().decode(Set<ConnectorType>.self, from: preferredConnectorsData)) ?? []
     }
     
     /// Loading indicator
@@ -62,6 +53,14 @@ final class ChargersViewModel {
     
     /// Current search radius in km
     var searchRadiusKm: Double = 10
+    
+    /// Whether to filter stations to those 'ahead' of user (for CarPlay driving mode)
+    var isAheadOfMeEnabled: Bool = false {
+        didSet { applyFilter() }
+    }
+    
+    /// Minimum speed (m/s) to activate Ahead of Me filter (5 km/h = ~1.4 m/s)
+    private let minSpeedForHeadingFilter: CLLocationSpeed = 1.4
     
     /// Current user location for distance calculations (exposed from LocationService)
     var currentUserLocation: CLLocation? {
@@ -145,7 +144,7 @@ final class ChargersViewModel {
                 location: location.coordinate,
                 radiusKm: searchRadiusKm,
                 maxResults: 200,
-                connectorTypes: selectedConnector.map { [$0] }
+                connectorTypes: preferredConnectors.isEmpty ? nil : Array(preferredConnectors)
             )
             
             // 5. Update state and cache
@@ -188,7 +187,7 @@ final class ChargersViewModel {
                 location: coordinate,
                 radiusKm: radiusKm ?? searchRadiusKm,
                 maxResults: 200,
-                connectorTypes: selectedConnector.map { [$0] }
+                connectorTypes: preferredConnectors.isEmpty ? nil : Array(preferredConnectors)
             )
             
             allStations = freshStations
@@ -205,14 +204,26 @@ final class ChargersViewModel {
         isLoading = false
     }
     
-    /// Clear the current filter and show all stations.
-    func clearFilter() {
-        selectedConnector = nil
+    /// Reload data and apply current persistent filters
+    func updateFilters() {
+        applyFilter()
     }
     
     /// Refresh data (pull-to-refresh action).
     func refresh() async {
         await fetchNearbyChargers()
+    }
+    
+    /// Start heading tracking for CarPlay "Ahead of Me" mode
+    func startHeadingTracking() {
+        locationService.startHeadingUpdates()
+        isAheadOfMeEnabled = true
+    }
+    
+    /// Stop heading tracking
+    func stopHeadingTracking() {
+        locationService.stopHeadingUpdates()
+        isAheadOfMeEnabled = false
     }
     
     // MARK: - Private Methods
@@ -251,61 +262,67 @@ final class ChargersViewModel {
     }
     
     private func applyFilter() {
-        if let connector = selectedConnector {
-            stations = allStations.filter { $0.connectorTypes.contains(connector) }
+        if !preferredConnectors.isEmpty {
+            stations = allStations.filter { station in
+                !Set(station.connectorTypes).isDisjoint(with: preferredConnectors)
+            }
         } else {
             stations = allStations
         }
         
-        // Apply selected sort option
-        switch selectedSortOption {
-        case .distance:
-            if let userLocation = locationService.currentLocation {
-                stations.sort { s1, s2 in
-                    s1.distance(from: userLocation) < s2.distance(from: userLocation)
-                }
-            }
-            
-        case .speed:
-            // Sort by max power (kW) - higher first
-            // Use connector types as proxy (CCS/Tesla typically faster)
+        // Sort by distance (always)
+        if let userLocation = locationService.currentLocation {
             stations.sort { s1, s2 in
-                let power1 = maxPowerRating(for: s1)
-                let power2 = maxPowerRating(for: s2)
-                return power1 > power2
+                s1.distance(from: userLocation) < s2.distance(from: userLocation)
             }
-            
-        case .availability:
-            // Sort by availability status
-            stations.sort { s1, s2 in
-                availabilityRank(s1.statusType) < availabilityRank(s2.statusType)
-            }
+        }
+        
+        // Apply "Ahead of Me" filter if enabled and conditions are met
+        if isAheadOfMeEnabled {
+            stations = filterStationsAheadOfMe(stations)
         }
     }
     
-    /// Estimate power rating based on connector types
-    private func maxPowerRating(for station: ChargingStation) -> Int {
-        var maxPower = 0
-        for connector in station.connectorTypes {
-            switch connector {
-            case .ccs: maxPower = max(maxPower, 350)
-            case .tesla: maxPower = max(maxPower, 250)
-            case .chademo: maxPower = max(maxPower, 100)
-            case .type2: maxPower = max(maxPower, 22)
-            case .j1772: maxPower = max(maxPower, 19)
-            }
+    /// Filter stations to those within ±45° of user's current heading.
+    /// Only applies when user speed > 5 km/h.
+    private func filterStationsAheadOfMe(_ stations: [ChargingStation]) -> [ChargingStation] {
+        // Check if conditions are met
+        guard let userLocation = locationService.currentLocation,
+              let userHeading = locationService.currentHeading,
+              let userSpeed = locationService.currentSpeed,
+              userSpeed >= minSpeedForHeadingFilter else {
+            // Conditions not met, return unfiltered
+            return stations
         }
-        return maxPower
+        
+        let headingTolerance: Double = 45.0 // ±45 degrees
+        
+        return stations.filter { station in
+            let bearing = bearingFrom(userLocation.coordinate, to: station.coordinate)
+            let angleDiff = normalizeAngleDifference(userHeading, bearing)
+            return abs(angleDiff) <= headingTolerance
+        }
     }
     
-    /// Lower rank = better availability
-    private func availabilityRank(_ status: StatusType?) -> Int {
-        switch status {
-        case .available: return 0
-        case .unknown, .none: return 1
-        case .occupied: return 2
-        case .outOfService: return 3
-        }
+    /// Calculate bearing from one coordinate to another (in degrees 0-360)
+    private func bearingFrom(_ from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> Double {
+        let lat1 = from.latitude.degreesToRadians
+        let lat2 = to.latitude.degreesToRadians
+        let dLon = (to.longitude - from.longitude).degreesToRadians
+        
+        let y = sin(dLon) * cos(lat2)
+        let x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon)
+        
+        let bearing = atan2(y, x).radiansToDegrees
+        return (bearing + 360).truncatingRemainder(dividingBy: 360)
+    }
+    
+    /// Normalize angle difference to range -180 to 180
+    private func normalizeAngleDifference(_ heading: Double, _ bearing: Double) -> Double {
+        var diff = bearing - heading
+        while diff > 180 { diff -= 360 }
+        while diff < -180 { diff += 360 }
+        return diff
     }
     
     // MARK: - Caching (SwiftData)

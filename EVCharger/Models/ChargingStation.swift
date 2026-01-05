@@ -41,6 +41,9 @@ final class ChargingStation {
     /// Usage cost description (free-form text from API)
     var usageCost: String?
     
+    /// Detailed connection info (power, quantity, status per connector)
+    var connections: [ConnectionInfo] = []
+    
     /// When this data was last updated from the API
     var lastUpdated: Date
     
@@ -57,6 +60,7 @@ final class ChargingStation {
         latitude: Double,
         longitude: Double,
         connectorTypes: [ConnectorType],
+        connections: [ConnectionInfo] = [],
         numberOfPoints: Int = 1,
         statusType: StatusType? = nil,
         usageCost: String? = nil,
@@ -70,6 +74,7 @@ final class ChargingStation {
         self.latitude = latitude
         self.longitude = longitude
         self.connectorTypes = connectorTypes
+        self.connections = connections
         self.numberOfPoints = numberOfPoints
         self.statusType = statusType
         self.usageCost = usageCost

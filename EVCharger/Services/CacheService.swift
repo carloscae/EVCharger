@@ -21,6 +21,15 @@ final class CacheService {
     /// Maximum stations to keep in cache
     static let maxCacheSize: Int = 500
     
+    /// UserDefaults key for last fetch timestamp
+    private static let lastFetchKey = "lastAPIFetchTimestamp"
+    
+    /// Get/set last API fetch time (persisted across launches)
+    static var lastFetchTimestamp: Date? {
+        get { UserDefaults.standard.object(forKey: lastFetchKey) as? Date }
+        set { UserDefaults.standard.set(newValue, forKey: lastFetchKey) }
+    }
+    
     // MARK: - Properties
     
     private let modelContext: ModelContext
@@ -49,6 +58,16 @@ final class CacheService {
         } else {
             return stations.filter { !$0.isCacheStale }
         }
+    }
+    
+    /// Load all cached stations globally (no location filter, for instant start).
+    /// - Returns: All cached stations sorted by most recently cached
+    func fetchAllCached() throws -> [ChargingStation] {
+        var descriptor = FetchDescriptor<ChargingStation>(
+            sortBy: [SortDescriptor(\.cachedAt, order: .reverse)]
+        )
+        descriptor.fetchLimit = Self.maxCacheSize
+        return try modelContext.fetch(descriptor)
     }
     
     /// Save stations to cache, updating existing or inserting new.

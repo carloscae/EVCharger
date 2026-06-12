@@ -1,7 +1,7 @@
 # EVCharger Sprint Roadmap
 
 **Project Start:** 2026-01-03  
-**Status:** **Sprint 10 (V1 Reset)**  
+**Status:** **Sprint 11 (Performance & Snappiness)**  
 **Target App Store:** Post-Sprint 11
 
 ---
@@ -10,27 +10,18 @@
 
 | Sprint | Goal | Status |
 |--------|------|--------|
-| Sprint 1-9 | Foundation & Features | ✅ Complete |
-| **Sprint 10** | **V1 Scope Reset** | 🔄 **Active** |
-| Sprint 11 | Release Prep | 📅 Planned |
+| Sprint 1-10 | Feature Reset & Cleanup | ✅ Complete |
+| **Sprint 11** | **Performance & Snappiness** | 🔄 **Active** |
 
 ---
 
-## Sprint 10: V1 Scope Reset
-**Goal:** Strip to core, ship lean.
-- Delete Route Planner, Favorites, Recents, Siri
-- Simplify Settings and CarPlay
-- Add "Ahead of Me" heading filter
-- UI cleanup pass
-- Build & QA
-
----
-
-## Sprint 11: Release Prep
-**Goal:** App Store Submission.
-- Icons & Screenshots
-- Legal & Privacy
-- TestFlight
+## Sprint 11: Performance & Snappiness
+**Goal:** Make the app feel instant and reduce API overhead.
+- Implement 15-minute fetch TTL
+- Optimize SwiftData caching (Instant Launch)
+- One-Tap Navigate from List
+- Debounce Region Fetches
+- App Store Submission Prep (Icons/Screenshots)
 
 ---
 
